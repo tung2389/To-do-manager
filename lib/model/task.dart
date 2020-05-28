@@ -22,6 +22,16 @@ class Task {
     this.steps,
     this.labels
   });
-
+  Map <String, dynamic> toMap() => {
+    'id': id,
+    'name': name,
+    'importance': importance,
+    'description': description,
+    'steps': steps,
+    'labels': labels,
+    'startTime': startTime,
+    'endTime': endTime,
+    'createdAt': createdAt
+  };
 }
 
