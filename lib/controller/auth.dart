@@ -12,12 +12,27 @@ class AuthService {
         password: password
       );
       FirebaseUser user = res.user;
+      await user.sendEmailVerification();
       await UserService(uid: user.uid).createUser(username, [], []);
       return user;
     } catch(e) {
-      return Future.error('Failed to register');
+      return null;
     }
   }
 
   // Signin with email and password
+  Future loginWithEmailAndPass(String email, String password) async {
+    try {
+      AuthResult result = await _auth.signInWithEmailAndPassword(email: email, password: password);
+      FirebaseUser user = result.user;
+      if(user.isEmailVerified) {
+        return user;
+      }
+      else {
+        return null;
+      }
+    } catch (e) {
+        return null;
+    }
+  }
 }

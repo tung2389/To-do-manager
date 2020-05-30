@@ -18,6 +18,7 @@ class _LoginState extends State<Login> {
 
   String email = '';
   String password = '';
+  String error = '';
 
   @override
   Widget build(BuildContext context) {
@@ -64,17 +65,29 @@ class _LoginState extends State<Login> {
                   onPressed: () async {
                     if(_formKey.currentState.validate()){
                       setState(() => loading = true);
-                      // dynamic result = await _auth.registerWithEmailAndPass(email, password, username);
-                      // print(result);
-                      // if(result == null) {
-                      //   setState(() {
-                      //     loading = false;
-                      //     error = 'Please supply a valid email';
-                      //   });
-                      // }
+                      dynamic result = await _auth.loginWithEmailAndPass(
+                        email, 
+                        password
+                      ).whenComplete(() {
+                          setState(() => loading = false);
+                      });
+
+                      if(result == null) {
+                        setState(() {
+                          error = 'There is an error while logging in. Make sure that your account was created, your email and password are corrent, and you have verified your email address';
+                        });
+                      }
+                      if(result != null) {
+                        print(result);
+                      }
                     }
                   }
                 ),
+              ),
+              SizedBox(height: 12.0),
+              Text(
+                error,
+                style: TextStyle(color: Colors.red, fontSize: 14.0),
               ),
             ],
           )

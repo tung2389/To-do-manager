@@ -19,6 +19,8 @@ class _RegisterState extends State<Register> {
   String repeatPassword = '';
   String username = '';
 
+  String error = '';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -83,17 +85,32 @@ class _RegisterState extends State<Register> {
                   onPressed: () async {
                     if(_formKey.currentState.validate()){
                       setState(() => loading = true);
-                      dynamic result = await _auth.registerWithEmailAndPass(email, password, username);
-                      print(result);
-                      // if(result == null) {
-                      //   setState(() {
-                      //     loading = false;
-                      //     error = 'Please supply a valid email';
-                      //   });
-                      // }
+                      
+                      dynamic result = await _auth.registerWithEmailAndPass(
+                        email, 
+                        password, 
+                        username
+                      ).whenComplete(() {
+                          setState(() => loading = false);
+                      });
+
+                      if(result == null) {
+                        setState(() {
+                          error = 'There is an error while registering. Make sure that your email address is valid';
+                        });
+                      }
+
+                      if(result != null) {
+                        Navigator.pushReplacementNamed(context, '/verify');
+                      }
                     }
                   }
                 ),
+              ),
+              SizedBox(height: 12.0),
+              Text(
+                error,
+                style: TextStyle(color: Colors.red, fontSize: 14.0),
               ),
             ],
           )

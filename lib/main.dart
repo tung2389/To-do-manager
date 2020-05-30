@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import './view/routes/home.dart';
 import './view/routes/register.dart';
 import './view/routes/login.dart';
+import './view/routes/verify.dart';
 // import 'package:cloud_firestore/cloud_firestore.dart';
 
 
@@ -17,11 +18,12 @@ class MyApp extends StatelessWidget {
       title: "To-do manager",
       // home: Home(),
       debugShowCheckedModeBanner: false,
-      initialRoute: '/login',
+      initialRoute: '/register',
       routes: {
         '/': (context) => Home(),
         '/register': (context) => Register(),
-        '/login': (context) => Login()
+        '/login': (context) => Login(),
+        '/verify': (context) => Verify()
       },
     );
   }
