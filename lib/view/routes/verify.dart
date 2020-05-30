@@ -7,12 +7,17 @@ class Verify extends StatelessWidget {
       appBar: AppBar(
         title: Text('To-do manager'),
       ),
-      body: Center(
+      body: Container(
+        padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text('You have registered successfully. Please open your email and verify your account. After verifying, click login button to login to your account'),
             SizedBox(
-                width: 100.0,
+              height: 20.0,
+            ),
+            ButtonTheme(
+                minWidth: 100.0,
                 height: 50.0,
                 child: RaisedButton(
                   color: Colors.lightBlue,

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../view/widgets/inputDecoration/textInputDecoration.dart';
 import '../../view/widgets/loadingIndicator/loadingIndicator.dart';
 import '../../controller/auth.dart';
+import '../../model/user.dart';
 
 
 class Login extends StatefulWidget {
@@ -65,20 +67,20 @@ class _LoginState extends State<Login> {
                   onPressed: () async {
                     if(_formKey.currentState.validate()){
                       setState(() => loading = true);
-                      dynamic result = await _auth.loginWithEmailAndPass(
+                      Map user = await _auth.loginWithEmailAndPass(
                         email, 
                         password
                       ).whenComplete(() {
                           setState(() => loading = false);
                       });
-
-                      if(result == null) {
+                      if(user == null) {
                         setState(() {
                           error = 'There is an error while logging in. Make sure that your account was created, your email and password are corrent, and you have verified your email address';
                         });
                       }
-                      if(result != null) {
-                        print(result);
+                      if(user != null) {
+                        Provider.of<User>(context, listen: false).updateUser(user['uid'], user['name']);
+                        Navigator.pushReplacementNamed(context, '/');
                       }
                     }
                   }

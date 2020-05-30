@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:to_do_manager/model/user.dart';
 import './view/routes/home.dart';
 import './view/routes/register.dart';
 import './view/routes/login.dart';
@@ -14,17 +16,23 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: "To-do manager",
-      // home: Home(),
-      debugShowCheckedModeBanner: false,
-      initialRoute: '/register',
-      routes: {
-        '/': (context) => Home(),
-        '/register': (context) => Register(),
-        '/login': (context) => Login(),
-        '/verify': (context) => Verify()
-      },
+    return Provider<User>(
+      create: (context) => User(
+        uid: '',
+        name: 'test case'
+      ),
+      child: MaterialApp(
+        title: "To-do manager",
+        // home: Home(),
+        debugShowCheckedModeBanner: false,
+        initialRoute: '/login',
+        routes: {
+          '/': (context) => Home(),
+          '/register': (context) => Register(),
+          '/login': (context) => Login(),
+          '/verify': (context) => Verify()
+        },
+      ),
     );
   }
 }

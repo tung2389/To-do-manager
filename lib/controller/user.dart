@@ -6,11 +6,11 @@ class UserService {
 
   final CollectionReference userCollection = Firestore.instance.collection('user');
 
-  Future createUser(String name, List daily, List todo)  {
-    userCollection.document(uid).setData({
+  Future createUser(String name)  {
+    return userCollection.document(uid).setData({
       'name': name,
-      'daily': daily,
-      'todo': todo
     });
+    // userCollection.document(uid).collection('daily');
+    // userCollection.document(uid).collection('todo');
   }
 }
