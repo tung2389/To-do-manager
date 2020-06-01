@@ -7,7 +7,8 @@ import '../../model/task.dart';
 class Home extends StatelessWidget {
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context)  {
+  // If unauthenticated user => re-direct to login
     return Scaffold(
       appBar: AppBar(
         title: Text('To-do manager'),

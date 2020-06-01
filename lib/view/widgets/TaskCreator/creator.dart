@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../dateTime/dateTime.dart';
+import '../../../controller/task.dart';
 import '../../../model/task.dart';
 
 // List <String> _fields = [
@@ -22,7 +23,7 @@ class CreatorDialog extends StatefulWidget {
 }
 
 class _CreatorDialogState extends State<CreatorDialog> {
-
+  final TaskService _taskService = new TaskService();
   // void _buildFields() {
   //   List<Widget> fieldWidgets  = [];
   //   for (String field in _fields) {
@@ -41,15 +42,16 @@ class _CreatorDialogState extends State<CreatorDialog> {
 
   Map <String, dynamic> _task = new Task(
     id: '',
-    name: '',
+    name: '', //ok
     importance: '',
-    description: '',
+    description: '',//ok
     steps: [],
     labels: [],
-    startTime: '',
-    endTime: '',
-    createdAt: ''
-  ).toMap();
+    startTime: '',//ok
+    endTime: '',//ok
+    createdAt: '' //ok
+  ).toMap()
+   .remove('id'); // We will take the id from firebase which is automatically generated
 
   @override
   Widget build(BuildContext context) {
@@ -88,6 +90,14 @@ class _CreatorDialogState extends State<CreatorDialog> {
         BasicDateTimeField(
           onChanged: _onChange,
           field: 'endTime'
+        ),
+        RaisedButton(
+          child: Text(
+            'Create new task',
+            style: TextStyle(color: Colors.white),
+          ),
+          color: Colors.red[400],
+          onPressed: () => _taskService.createTodo(_task),
         )
       ],
     );
