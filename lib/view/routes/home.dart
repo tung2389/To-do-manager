@@ -41,9 +41,13 @@ class Home extends StatelessWidget {
                       dynamic taskList = snapshot.data.documents;
                       return ListView.builder(
                         padding: EdgeInsets.all(10.0),
-                        itemBuilder: (context, index) => TaskView(
-                          task: taskList[index].data
-                        ) ,
+                        itemBuilder: (context, index) {
+                          Map<String, dynamic> task = taskList[index].data;
+                          task['id'] = taskList[index].documentID; //insert ID to Map task
+                          return TaskView(
+                            task: task
+                          );
+                        }, 
                         itemCount: taskList.length,
                       );
                     }

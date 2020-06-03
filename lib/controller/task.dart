@@ -8,6 +8,8 @@ class TaskService {
   Future createTodo(Map<String, dynamic> task) async {
     try {
       task['createdAt'] = DateTime.now();
+      // We will take the id from firebase which is automatically generated
+      task.remove('id');
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String uid = prefs.getString('uid');
       final DocumentReference taskRef = await _db.collection('user')

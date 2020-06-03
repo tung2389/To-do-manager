@@ -50,8 +50,7 @@ class _CreatorDialogState extends State<CreatorDialog> {
     startTime: '',//ok
     endTime: '',//ok
     createdAt: '' //ok
-  ).toMap()
-   .remove('id'); // We will take the id from firebase which is automatically generated
+  ).toMap();
 
   @override
   Widget build(BuildContext context) {
@@ -97,7 +96,10 @@ class _CreatorDialogState extends State<CreatorDialog> {
             style: TextStyle(color: Colors.white),
           ),
           color: Colors.red[400],
-          onPressed: () => _taskService.createTodo(_task),
+          onPressed: () {
+            _taskService.createTodo(_task);
+             Navigator.pop(context); // Close the dialog
+          },
         )
       ],
     );
