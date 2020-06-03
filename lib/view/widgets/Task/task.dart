@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../../model/task.dart';
 
 class TaskView extends StatefulWidget {
-  final Task task;
+  final Map<String, dynamic> task;
   TaskView({Key key, this.task}) : super(key: key);
 
   @override
@@ -18,10 +17,10 @@ class _TaskViewState extends State<TaskView> {
       barrierDismissible: true,
       builder: (BuildContext context) {
         return SimpleDialog(
-          title: Text('${widget.task.name}'),
+          title: Text('${widget.task['name']}'),
           children: <Widget>[
-            Text('${widget.task.description}'),
-            Text('${widget.task.importance}')
+            Text('${widget.task['description']}'),
+            Text('${widget.task['importance']}')
           ],
         );
       }
@@ -44,7 +43,7 @@ class _TaskViewState extends State<TaskView> {
               // activeColor: ,
             ),
             Text(
-              '${widget.task.name}'
+              '${widget.task['name']}'
             ),  
           ],
         )
