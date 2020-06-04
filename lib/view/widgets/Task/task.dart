@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class TaskView extends StatefulWidget {
   final Map<String, dynamic> task;
-  TaskView({Key key, this.task}) : super(key: key);
+  TaskView({this.task}) : super(key: Key(task['id']));
   // TaskView({this.task}) : super(key: task);
 
   @override

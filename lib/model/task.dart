@@ -9,6 +9,7 @@ class Task {
   List<String> labels;
   String startTime;
   String endTime;
+  String status;
   String createdAt;
 
   Task({
@@ -18,6 +19,7 @@ class Task {
     @required this.startTime,
     @required this.endTime,
     @required this.createdAt,
+    @required this.status,
     this.description,
     this.steps,
     this.labels
@@ -31,6 +33,7 @@ class Task {
     'labels': labels,
     'startTime': startTime,
     'endTime': endTime,
+    'status': status,
     'createdAt': createdAt
   };
 }

@@ -22,4 +22,21 @@ class TaskService {
       return null;
     }
   }
+
+  Future markAsCompleted(String taskId) async {
+    try{
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String uid = prefs.getString('uid');
+      await _db.collection('user')
+              .document(uid)
+              .collection('todo')
+              .document(taskId)
+              .updateData({
+                'pending': 'completed'
+              });
+      return true;
+    } catch(e) {
+      return null;
+    }
+  }
 }

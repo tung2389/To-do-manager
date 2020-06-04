@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import './view/routes/home.dart';
 import './view/routes/register.dart';
 import './view/routes/login.dart';
@@ -8,9 +8,9 @@ import './view/routes/verify.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  SharedPreferences prefs = await SharedPreferences.getInstance();
   String defaultWidget;
-  if(prefs.getString('uid') == '') {
+  FirebaseUser user = await FirebaseAuth.instance.currentUser();
+  if(user == null) { // Unauthorized
     defaultWidget = '/login';
   }
   else {

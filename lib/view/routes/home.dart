@@ -30,6 +30,7 @@ class Home extends StatelessWidget {
                                   .collection('user')
                                   .document(uid.data)
                                   .collection('todo')
+                                  .where('status', isEqualTo: 'pending')
                                   .snapshots(),
                   builder: (context, snapshot) {
                     if(!snapshot.hasData) {

@@ -49,6 +49,7 @@ class _CreatorDialogState extends State<CreatorDialog> {
     labels: [],
     startTime: '',//ok
     endTime: '',//ok
+    status: 'pending',//ok
     createdAt: '' //ok
   ).toMap();
 
