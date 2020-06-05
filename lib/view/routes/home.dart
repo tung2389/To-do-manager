@@ -46,7 +46,8 @@ class Home extends StatelessWidget {
                           Map<String, dynamic> task = taskList[index].data;
                           task['id'] = taskList[index].documentID; //insert ID to Map task
                           return TaskView(
-                            task: task
+                            task: task,
+                            parentContext: context
                           );
                         }, 
                         itemCount: taskList.length,

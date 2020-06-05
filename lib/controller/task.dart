@@ -32,7 +32,7 @@ class TaskService {
               .collection('todo')
               .document(taskId)
               .updateData({
-                'pending': 'completed'
+                'status': 'completed'
               });
       return true;
     } catch(e) {
