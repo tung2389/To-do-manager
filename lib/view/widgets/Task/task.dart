@@ -15,7 +15,6 @@ class TaskView extends StatefulWidget {
 }
 
 class _TaskViewState extends State<TaskView> {
-  bool checked = false;
   bool loading = false;
   final TaskService _taskService = new TaskService();
 
@@ -44,8 +43,11 @@ class _TaskViewState extends State<TaskView> {
             loading ?
             Loading() :
             Checkbox(
-              value:checked, 
-              onChanged: (bool value) async {
+              value: widget.task['status'] == 'completed' ? true : false, 
+              onChanged: 
+                widget.task['status'] == 'completed' 
+                ? null :
+                (bool value) async {
                 setState(() {
                   loading = true;
                 });
