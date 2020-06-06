@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../dateTime/dateTime.dart';
+import './dropdown.dart';
+import '../loadingIndicator/loadingIndicator.dart';
 import '../../../controller/task.dart';
 import '../../../model/task.dart';
 
@@ -24,6 +26,7 @@ class CreatorDialog extends StatefulWidget {
 
 class _CreatorDialogState extends State<CreatorDialog> {
   final TaskService _taskService = new TaskService();
+  bool loading = false;
   // void _buildFields() {
   //   List<Widget> fieldWidgets  = [];
   //   for (String field in _fields) {
@@ -43,7 +46,7 @@ class _CreatorDialogState extends State<CreatorDialog> {
   Map <String, dynamic> _task = new Task(
     id: '',
     name: '', //ok
-    importance: '',
+    importance: '', //ok
     description: '',//ok
     steps: [],
     labels: [],
@@ -62,42 +65,68 @@ class _CreatorDialogState extends State<CreatorDialog> {
       contentPadding: EdgeInsets.all(24.0),
       title: Text('Create new task'),
       children: <Widget>[
-        TextField(
-          decoration: InputDecoration(
-            border: InputBorder.none,
-            hintText: "Enter task's name"
+        Container(
+          height: 300,
+          width: 300,
+          child: ListView(
+            children: <Widget>[
+              TextField(
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  hintText: "Enter task's name"
+                ),
+                onChanged: (value) =>_onChange('name', value),
+              ),
+
+              TextField(
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  hintText: "Enter task's description"
+                ),
+                onChanged: (value) =>_onChange('description', value),
+              ),
+              SizedBox(height: 10), // Add margin
+
+              Text('Choose level'),
+              DropDownMenu(
+                changeOption: _onChange
+              ),
+              SizedBox(height: 20), // Add margin
+
+              Text('Start time'),
+              BasicDateTimeField(
+                onChanged: _onChange,
+                field: 'startTime'
+              ),
+              SizedBox(height: 10),
+
+              Text('End time'),
+              BasicDateTimeField(
+                onChanged: _onChange,
+                field: 'endTime'
+              ),
+              SizedBox(height: 10),
+
+              Text('Steps'),
+              SizedBox(height: 10),
+
+              Text('Categories'),
+              SizedBox(height: 10),
+            ],
           ),
-          onChanged: (value) =>_onChange('name', value),
-        ),
-
-        TextField(
-          decoration: InputDecoration(
-            border: InputBorder.none,
-            hintText: "Enter task's description"
-          ),
-          onChanged: (value) =>_onChange('description', value),
-        ),
-        SizedBox(height: 10), // Add margin
-
-        Text('Start time'),
-        BasicDateTimeField(
-          onChanged: _onChange,
-          field: 'startTime'
-        ),
-        SizedBox(height: 10),
-
-        Text('End time'),
-        BasicDateTimeField(
-          onChanged: _onChange,
-          field: 'endTime'
         ),
         RaisedButton(
-          child: Text(
+          child: loading 
+          ? Loading() 
+          : Text(
             'Create new task',
             style: TextStyle(color: Colors.white),
           ),
           color: Colors.red[400],
           onPressed: () {
+            setState(() {
+              loading = true;
+            });
             _taskService.createTodo(_task);
              Navigator.pop(context); // Close the dialog
           },

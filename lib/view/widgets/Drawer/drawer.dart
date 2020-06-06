@@ -9,20 +9,27 @@ class NavDrawer extends StatelessWidget {
         padding: EdgeInsets.zero,
         children: <Widget>[
           DrawerHeader(
-            child: Text('Drawer Header'),
+            child: Text(
+              'To do manager',
+                style: TextStyle(
+                color: Colors.white,
+                fontSize: 20.0,
+                fontWeight: FontWeight.w500
+              )
+            ),
             decoration: BoxDecoration(
               color: Colors.blue,
             ),
           ),
           ListTile(
-            title: Text('Daily'),
+            title: Text('To do'),
             onTap: () {
               // Update the state of the app.
               // ...
             },
           ),
           ListTile(
-            title: Text('To do'),
+            title: Text('Daily'),
             onTap: () {
               // Update the state of the app.
               // ...

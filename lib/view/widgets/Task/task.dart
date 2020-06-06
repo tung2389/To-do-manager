@@ -26,8 +26,24 @@ class _TaskViewState extends State<TaskView> {
         return SimpleDialog(
           title: Text('${widget.task['name']}'),
           children: <Widget>[
-            Text('${widget.task['description']}'),
-            Text('${widget.task['importance']}')
+            Container(
+              child: Column(
+                children: <Widget>[
+                  Row(
+                    children: <Widget>[
+                      Text('Description: '),
+                      Text('${widget.task['description']}'),
+                    ],
+                  ),
+                  Row(
+                    children: <Widget>[
+                      Text('Importance: '),
+                      Text('${widget.task['importance']}')
+                    ],
+                  ),
+                ],
+              ),
+            ) 
           ],
         );
       }
