@@ -27,6 +27,7 @@ class CreatorDialog extends StatefulWidget {
 class _CreatorDialogState extends State<CreatorDialog> {
   final TaskService _taskService = new TaskService();
   bool loading = false;
+  final ScrollController _scrollBarController = ScrollController();
   // void _buildFields() {
   //   List<Widget> fieldWidgets  = [];
   //   for (String field in _fields) {
@@ -56,6 +57,9 @@ class _CreatorDialogState extends State<CreatorDialog> {
     createdAt: '' //ok
   ).toMap();
 
+  String tempStep = '';
+  String tempLabel = '';
+
   @override
   Widget build(BuildContext context) {
     return SimpleDialog(
@@ -68,51 +72,100 @@ class _CreatorDialogState extends State<CreatorDialog> {
         Container(
           height: 300,
           width: 300,
-          child: ListView(
-            children: <Widget>[
-              TextField(
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  hintText: "Enter task's name"
+          child: Scrollbar(
+            isAlwaysShown: true,
+            controller: _scrollBarController,
+            child: ListView(
+              controller: _scrollBarController,
+              children: <Widget>[
+                TextField(
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintText: "Enter task's name"
+                  ),
+                  onChanged: (value) =>_onChange('name', value),
                 ),
-                onChanged: (value) =>_onChange('name', value),
-              ),
 
-              TextField(
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  hintText: "Enter task's description"
+                TextField(
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintText: "Enter task's description"
+                  ),
+                  onChanged: (value) =>_onChange('description', value),
                 ),
-                onChanged: (value) =>_onChange('description', value),
-              ),
-              SizedBox(height: 10), // Add margin
+                SizedBox(height: 10), // Add margin
 
-              Text('Choose level'),
-              DropDownMenu(
-                changeOption: _onChange
-              ),
-              SizedBox(height: 20), // Add margin
+                Text('Choose level'),
+                DropDownMenu(
+                  changeOption: _onChange
+                ),
+                SizedBox(height: 20), // Add margin
 
-              Text('Start time'),
-              BasicDateTimeField(
-                onChanged: _onChange,
-                field: 'startTime'
-              ),
-              SizedBox(height: 10),
+                Text('Start time'),
+                BasicDateTimeField(
+                  onChanged: _onChange,
+                  field: 'startTime'
+                ),
+                SizedBox(height: 10),
 
-              Text('End time'),
-              BasicDateTimeField(
-                onChanged: _onChange,
-                field: 'endTime'
-              ),
-              SizedBox(height: 10),
+                Text('End time'),
+                BasicDateTimeField(
+                  onChanged: _onChange,
+                  field: 'endTime'
+                ),
+                SizedBox(height: 10),
 
-              Text('Steps'),
-              SizedBox(height: 10),
+                Text('Steps'),
+                Row(
+                  children: <Widget>[
+                    IconButton(
+                      icon: Icon(Icons.add),
+                      tooltip: 'Add new steps',
+                      onPressed: () => _onChange('steps', _task['step'].add(tempStep)),
+                    ),
+                    Expanded( // We need expanded so the textfield take the remaining space of row
+                      child: TextField(
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: "Add more step"
+                        ),
+                        onChanged: (value) {
+                          setState(() {
+                            tempStep = value;
+                          });
+                        },
+                      ),
+                    )
+                  ],
+                ),
+                SizedBox(height: 10),
 
-              Text('Categories'),
-              SizedBox(height: 10),
-            ],
+                Text('Categories'),
+                Row(
+                  children: <Widget>[
+                    IconButton(
+                      icon: Icon(Icons.add),
+                      tooltip: 'Add labels',
+                      onPressed: () => _onChange('labels', _task['labels'].add(tempLabel))
+                    ),
+                    Expanded( // We need expanded so the textfield take the remaining space of row
+                      child: TextField(
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: "Add new label"
+                        ),
+                        onChanged: (value) {
+                          setState(() {
+                            tempLabel = value;
+                          });
+                        }
+                      ),
+                    )
+                  ],
+                ),
+                SizedBox(height: 10),
+              ],
+            ),
           ),
         ),
         RaisedButton(
