@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import '../model/step.dart';
 
 class Task {
   String id;
   String name;
   String importance;
   String description;
-  List<String> steps;
+  List<TaskStep> steps;
   List<String> labels;
   String startTime;
   String endTime;
@@ -29,7 +30,7 @@ class Task {
     'name': name,
     'importance': importance,
     'description': description,
-    'steps': steps,
+    'steps': steps.map((TaskStep s) => s.toMap()),
     'labels': labels,
     'startTime': startTime,
     'endTime': endTime,

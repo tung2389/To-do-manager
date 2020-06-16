@@ -2,20 +2,10 @@ import 'package:flutter/material.dart';
 import '../dateTime/dateTime.dart';
 import './dropdown.dart';
 import '../loadingIndicator/loadingIndicator.dart';
+import './step.dart';
 import '../../../controller/task.dart';
 import '../../../model/task.dart';
-
-// List <String> _fields = [
-//   'id',
-//   'name', 
-//   'importance', 
-//   'description', 
-//   'steps', 
-//   'labels', 
-//   'startTime', 
-//   'endTime', 
-//   'createdAt'
-// ]; 
+import '../../../model/step.dart';
 
 class CreatorDialog extends StatefulWidget {
   CreatorDialog({Key key}) : super(key: key);
@@ -28,36 +18,24 @@ class _CreatorDialogState extends State<CreatorDialog> {
   final TaskService _taskService = new TaskService();
   bool loading = false;
   final ScrollController _scrollBarController = ScrollController();
-  // void _buildFields() {
-  //   List<Widget> fieldWidgets  = [];
-  //   for (String field in _fields) {
-  //     fieldWidgets.add(
 
-  //     )
-  //   }
-  // }
-
-  void _onChange(String field, dynamic value) {
-    _task[field] = value;
-    setState(() {
-      _task = _task;
-    });
-  }
-
-  Map <String, dynamic> _task = new Task(
+  Task _task = new Task(
     id: '',
     name: '', //ok
     importance: '', //ok
     description: '',//ok
-    steps: [],
-    labels: [],
+    steps: new List<TaskStep>(),
+    labels: new List<String>(),
     startTime: '',//ok
     endTime: '',//ok
     status: 'pending',//ok
     createdAt: '' //ok
-  ).toMap();
+  );
 
-  String tempStep = '';
+  TaskStep tempStep = TaskStep(
+    name: '',
+    completed: false
+  );
   String tempLabel = '';
 
   @override
@@ -83,7 +61,11 @@ class _CreatorDialogState extends State<CreatorDialog> {
                     border: InputBorder.none,
                     hintText: "Enter task's name"
                   ),
-                  onChanged: (value) =>_onChange('name', value),
+                  onChanged: (value) {
+                    setState(() {
+                      _task.name = value;
+                    });
+                  },
                 ),
 
                 TextField(
@@ -91,37 +73,54 @@ class _CreatorDialogState extends State<CreatorDialog> {
                     border: InputBorder.none,
                     hintText: "Enter task's description"
                   ),
-                  onChanged: (value) =>_onChange('description', value),
+                  onChanged: (value) {
+                    setState(() {
+                      _task.description = value;
+                    });
+                  },
                 ),
                 SizedBox(height: 10), // Add margin
 
                 Text('Choose level'),
                 DropDownMenu(
-                  changeOption: _onChange
+                  changeOption: (value) {
+                    setState(() {
+                      _task.importance = value;
+                    });
+                  }
                 ),
                 SizedBox(height: 20), // Add margin
 
                 Text('Start time'),
                 BasicDateTimeField(
-                  onChanged: _onChange,
-                  field: 'startTime'
+                  onChanged: (value) {
+                    setState(() {
+                      _task.startTime = value;
+                    });
+                  },
                 ),
                 SizedBox(height: 10),
 
                 Text('End time'),
                 BasicDateTimeField(
-                  onChanged: _onChange,
-                  field: 'endTime'
+                  onChanged: (value) {
+                    setState(() {
+                      _task.endTime = value;
+                    });
+                  }
                 ),
                 SizedBox(height: 10),
-
                 Text('Steps'),
                 Row(
                   children: <Widget>[
                     IconButton(
                       icon: Icon(Icons.add),
                       tooltip: 'Add new steps',
-                      onPressed: () => _onChange('steps', _task['step'].add(tempStep)),
+                      onPressed: () {
+                        setState(() {
+                          _task.steps.add(tempStep);
+                        });
+                      },
                     ),
                     Expanded( // We need expanded so the textfield take the remaining space of row
                       child: TextField(
@@ -131,12 +130,21 @@ class _CreatorDialogState extends State<CreatorDialog> {
                         ),
                         onChanged: (value) {
                           setState(() {
-                            tempStep = value;
+                            tempStep.name = value;
                           });
                         },
                       ),
                     )
                   ],
+                ),
+                ListView.builder(
+                  itemBuilder: (context, index) {
+                    return StepView(
+                      step: _task.steps[index]
+                    );
+                  },
+                  itemCount: _task.steps.length,
+                  shrinkWrap: true,
                 ),
                 SizedBox(height: 10),
 
@@ -146,7 +154,11 @@ class _CreatorDialogState extends State<CreatorDialog> {
                     IconButton(
                       icon: Icon(Icons.add),
                       tooltip: 'Add labels',
-                      onPressed: () => _onChange('labels', _task['labels'].add(tempLabel))
+                      onPressed: () {
+                        setState(() {
+                          _task.labels.add(tempLabel);
+                        });
+                      }
                     ),
                     Expanded( // We need expanded so the textfield take the remaining space of row
                       child: TextField(

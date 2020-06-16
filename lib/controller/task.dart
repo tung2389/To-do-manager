@@ -1,23 +1,25 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../model/task.dart';
 // import 'package:flutter/material.dart';
 
 class TaskService {
   final _db = Firestore.instance;
 
-  Future createTodo(Map<String, dynamic> task) async {
+  Future createTodo(Task task) async {
     try {
-      task['createdAt'] = DateTime.now();
+      Map<String, dynamic> newTask = task.toMap();
+      newTask['createdAt'] = DateTime.now();
       // We will take the id from firebase which is automatically generated
-      task.remove('id');
+      newTask.remove('id');
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String uid = prefs.getString('uid');
       final DocumentReference taskRef = await _db.collection('user')
                                                 .document(uid)
                                                 .collection('todo')
-                                                .add(task);
-      task['id'] = taskRef.documentID;
-      return task;
+                                                .add(newTask);
+      newTask['id'] = taskRef.documentID;
+      return newTask;
     } catch(e) {
       return null;
     }

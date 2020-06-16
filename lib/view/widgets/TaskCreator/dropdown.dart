@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class DropDownMenu extends StatefulWidget {
-  final void Function(String field, dynamic value) changeOption;
+  final void Function(dynamic value) changeOption;
   DropDownMenu({this.changeOption});
 
   @override
@@ -18,7 +18,7 @@ class _DropDownMenuState extends State<DropDownMenu> {
         setState(() {
           dropdownValue = newValue;
         });
-        widget.changeOption('importance', newValue);
+        widget.changeOption(newValue);
       },
       items: <String>['trivial', 'normal', 'important', 'essential']
         .map<DropdownMenuItem<String>>((String value) {
