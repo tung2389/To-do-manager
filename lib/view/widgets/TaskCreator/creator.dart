@@ -38,6 +38,9 @@ class _CreatorDialogState extends State<CreatorDialog> {
   );
   String tempLabel = '';
 
+  final _stepController = TextEditingController();
+  final _labelController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return SimpleDialog(
@@ -117,9 +120,11 @@ class _CreatorDialogState extends State<CreatorDialog> {
                       icon: Icon(Icons.add),
                       tooltip: 'Add new steps',
                       onPressed: () {
-                        setState(() {
-                          _task.steps.add(tempStep);
+                      setState(() {
+                          //_task.steps.add(tempStep); // We cannot do this because this will add the reference of tempStep.
+                          _task.steps.add(TaskStep.clone(tempStep));
                         });
+                      _stepController.clear();
                       },
                     ),
                     Expanded( // We need expanded so the textfield take the remaining space of row
@@ -133,6 +138,7 @@ class _CreatorDialogState extends State<CreatorDialog> {
                             tempStep.name = value;
                           });
                         },
+                        controller: _stepController,
                       ),
                     )
                   ],
@@ -158,6 +164,7 @@ class _CreatorDialogState extends State<CreatorDialog> {
                         setState(() {
                           _task.labels.add(tempLabel);
                         });
+                        _labelController.clear();
                       }
                     ),
                     Expanded( // We need expanded so the textfield take the remaining space of row
@@ -170,7 +177,8 @@ class _CreatorDialogState extends State<CreatorDialog> {
                           setState(() {
                             tempLabel = value;
                           });
-                        }
+                        },
+                        controller: _labelController,
                       ),
                     )
                   ],
@@ -200,3 +208,4 @@ class _CreatorDialogState extends State<CreatorDialog> {
     );
   }
 }
+

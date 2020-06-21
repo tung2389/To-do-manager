@@ -17,4 +17,8 @@ class TaskStep{
     name = step['name'];
     completed = step['completed'];
   }
+  TaskStep.clone(TaskStep step) { // Method for deep copy of class
+    name =  step.name;
+    completed = step.completed;
+  }
 }
