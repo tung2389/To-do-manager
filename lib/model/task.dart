@@ -3,8 +3,8 @@ import '../model/step.dart';
 
 class Task {
   String id;
-  String name;
-  String importance;
+  String title;
+  String priority;
   String description;
   List<TaskStep> steps;
   List<String> labels;
@@ -15,8 +15,8 @@ class Task {
 
   Task({
     @required this.id,
-    @required this.name,
-    @required this.importance,
+    @required this.title,
+    @required this.priority,
     @required this.startTime,
     @required this.endTime,
     @required this.createdAt,
@@ -27,8 +27,8 @@ class Task {
   });
   Map <String, dynamic> toMap() => {
     'id': id,
-    'name': name,
-    'importance': importance,
+    'title': title,
+    'priority': priority,
     'description': description,
     'steps': steps.map((TaskStep s) => s.toMap()),
     'labels': labels,

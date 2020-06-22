@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../loadingIndicator/loadingIndicator.dart';
 import '../snackBar/error.dart';
 import '../snackBar/success.dart';
-import '../../../controller/task.dart';
+import '../../../controller/todo.dart';
 
 class TaskView extends StatefulWidget {
   final Map<String, dynamic> task;
@@ -24,7 +24,19 @@ class _TaskViewState extends State<TaskView> {
       barrierDismissible: true,
       builder: (BuildContext context) {
         return SimpleDialog(
-          title: Text('${widget.task['name']}'),
+          title: Text(
+            '${widget.task['title']}',
+            style: TextStyle(
+              fontSize: 18,
+              color: Colors.white
+            ),
+          ),
+          contentPadding: EdgeInsets.symmetric(
+            horizontal:10,
+            vertical: 10
+          ),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          backgroundColor: Colors.lightBlue[100],
           children: <Widget>[
             Container(
               child: Column(
@@ -37,8 +49,8 @@ class _TaskViewState extends State<TaskView> {
                   ),
                   Row(
                     children: <Widget>[
-                      Text('Importance: '),
-                      Text('${widget.task['importance']}')
+                      Text('Priority: '),
+                      Text('${widget.task['priority']}')
                     ],
                   ),
                 ],
@@ -92,7 +104,7 @@ class _TaskViewState extends State<TaskView> {
               // activeColor: ,
             ),
             Text(
-              '${widget.task['name']}'
+              '${widget.task['title']}'
             ),  
           ],
         )

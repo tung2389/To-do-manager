@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:to_do_manager/view/widgets/TaskCreator/label.dart';
 import '../dateTime/dateTime.dart';
 import './dropdown.dart';
 import '../loadingIndicator/loadingIndicator.dart';
 import './step.dart';
-import '../../../controller/task.dart';
+import '../../../controller/todo.dart';
 import '../../../model/task.dart';
 import '../../../model/step.dart';
 
@@ -21,8 +22,8 @@ class _CreatorDialogState extends State<CreatorDialog> {
 
   Task _task = new Task(
     id: '',
-    name: '', //ok
-    importance: '', //ok
+    title: '', //ok
+    priority: '', //ok
     description: '',//ok
     steps: new List<TaskStep>(),
     labels: new List<String>(),
@@ -33,13 +34,25 @@ class _CreatorDialogState extends State<CreatorDialog> {
   );
 
   TaskStep tempStep = TaskStep(
-    name: '',
+    title: '',
     completed: false
   );
   String tempLabel = '';
 
   final _stepController = TextEditingController();
   final _labelController = TextEditingController();
+
+  List<Widget> _generateLabelList() {
+    List<Widget> labelList = new List<Widget>();
+    for(int i = 0; i < _task.labels.length; i++) {
+      labelList.add(
+        new LabelView(
+          label: _task.labels[i]
+        )
+      );
+    }
+    return labelList;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,11 +75,11 @@ class _CreatorDialogState extends State<CreatorDialog> {
                 TextField(
                   decoration: InputDecoration(
                     border: InputBorder.none,
-                    hintText: "Enter task's name"
+                    hintText: "Enter task's title"
                   ),
                   onChanged: (value) {
                     setState(() {
-                      _task.name = value;
+                      _task.title = value;
                     });
                   },
                 ),
@@ -88,7 +101,7 @@ class _CreatorDialogState extends State<CreatorDialog> {
                 DropDownMenu(
                   changeOption: (value) {
                     setState(() {
-                      _task.importance = value;
+                      _task.priority = value;
                     });
                   }
                 ),
@@ -135,7 +148,7 @@ class _CreatorDialogState extends State<CreatorDialog> {
                         ),
                         onChanged: (value) {
                           setState(() {
-                            tempStep.name = value;
+                            tempStep.title = value;
                           });
                         },
                         controller: _stepController,
@@ -177,11 +190,17 @@ class _CreatorDialogState extends State<CreatorDialog> {
                           setState(() {
                             tempLabel = value;
                           });
+                          print(tempLabel);
                         },
                         controller: _labelController,
                       ),
                     )
                   ],
+                ),
+                Wrap(
+                  spacing: 5.0,
+                  runSpacing: 5.0,
+                  children: _generateLabelList(),
                 ),
                 SizedBox(height: 10),
               ],

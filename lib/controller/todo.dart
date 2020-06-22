@@ -7,13 +7,13 @@ class TaskService {
   final _db = Firestore.instance;
 
   Future createTodo(Task task) async {
+    Map<String, dynamic> newTask = task.toMap();
+    newTask['createdAt'] = DateTime.now();
+    // We will take the id from firebase which is automatically generated
+    newTask.remove('id');
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String uid = prefs.getString('uid');
     try {
-      Map<String, dynamic> newTask = task.toMap();
-      newTask['createdAt'] = DateTime.now();
-      // We will take the id from firebase which is automatically generated
-      newTask.remove('id');
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      String uid = prefs.getString('uid');
       final DocumentReference taskRef = await _db.collection('user')
                                                 .document(uid)
                                                 .collection('todo')
@@ -25,10 +25,29 @@ class TaskService {
     }
   }
 
-  Future markAsCompleted(String taskId) async {
+  Future updateSteps(String taskId, List<String>stepList) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String uid = prefs.getString('uid');
     try{
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      String uid = prefs.getString('uid');
+      await _db.collection('user') 
+        .document(uid)
+        .collection('todo')
+        .document(taskId)
+        .updateData({
+          'steps': stepList
+        });
+    } catch(e) {
+      return Future.error(
+        'There was an error updating your steps'
+      );
+    }
+    
+  }
+
+  Future markAsCompleted(String taskId) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String uid = prefs.getString('uid');
+    try{
       await _db.collection('user')
               .document(uid)
               .collection('todo')

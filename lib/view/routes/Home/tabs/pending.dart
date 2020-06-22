@@ -51,8 +51,8 @@ class PendingTab extends StatelessWidget {
                 //   child: TaskView(
                 //   task: Task(
                 //     id: '1234',
-                //     name: 'Do your homework',
-                //     importance: 'medium',
+                //     title: 'Do your homework',
+                //     priority: 'medium',
                 //     description: 'Do your Math homework',
                 //     startTime: '',
                 //     endTime: '',

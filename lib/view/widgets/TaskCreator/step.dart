@@ -19,7 +19,7 @@ class _StepViewState extends State<StepView> {
              value: widget.step.completed,
              onChanged: (bool test) => {},
            ),
-           Text('${widget.step.name}')
+           Text('${widget.step.title}')
          ],
        ),
     );

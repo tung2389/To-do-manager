@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
 
 class TaskStep{
-  String name;
+  String title;
   bool completed; 
 
   TaskStep({
-    @required this.name,
+    @required this.title,
     @required this.completed
   });
 
   Map<String, dynamic> toMap() => {
-    'name': name,
+    'title': title,
     'completed': completed 
   };
   TaskStep.fromMap(Map<String, dynamic> step) {
-    name = step['name'];
+    title = step['title'];
     completed = step['completed'];
   }
   TaskStep.clone(TaskStep step) { // Method for deep copy of class
-    name =  step.name;
+    title =  step.title;
     completed = step.completed;
   }
 }
