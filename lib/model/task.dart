@@ -25,6 +25,11 @@ class Task {
     this.steps,
     this.labels
   });
+
+  // Task.fromMap(Map<String, dynamic> task) {
+
+  // }
+
   Map <String, dynamic> toMap() => {
     'id': id,
     'title': title,

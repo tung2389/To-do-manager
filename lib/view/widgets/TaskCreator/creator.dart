@@ -22,15 +22,15 @@ class _CreatorDialogState extends State<CreatorDialog> {
 
   Task _task = new Task(
     id: '',
-    title: '', //ok
-    priority: 'normal', //ok
-    description: '',//ok
+    title: '', 
+    priority: 'normal', 
+    description: '',
     steps: new List<TaskStep>(),
     labels: new List<String>(),
-    startTime: '',//ok
-    endTime: '',//ok
-    status: 'pending',//ok
-    createdAt: '' //ok
+    startTime: '',
+    endTime: '',
+    status: 'pending',
+    createdAt: '' 
   );
 
   TaskStep tempStep = TaskStep(

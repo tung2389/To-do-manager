@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../widgets/Task/task.dart';
+import '../../../../model/task.dart';
 // import '../../../widgets/TaskCreator/creator.dart';
 
 class CompletedTab extends StatelessWidget {
@@ -38,6 +39,7 @@ class CompletedTab extends StatelessWidget {
                       itemBuilder: (context, index) {
                         Map<String, dynamic> task = taskList[index].data;
                         task['id'] = taskList[index].documentID; //insert ID to Map task
+                        //newTask = Task.
                         return TaskView(
                           task: task,
                           parentContext: context

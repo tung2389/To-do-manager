@@ -24,19 +24,24 @@ class _TaskViewState extends State<TaskView> {
       barrierDismissible: true,
       builder: (BuildContext context) {
         return SimpleDialog(
-          title: Text(
-            '${widget.task['title']}',
-            style: TextStyle(
-              fontSize: 18,
-              color: Colors.white
-            ),
+          title: TextFormField(
+            initialValue: widget.task['title'],
+            // '${widget.task['title']}',
+            // style: TextStyle(
+            //   fontSize: 18,
+            //   color: Colors.white
+            // ),
           ),
           contentPadding: EdgeInsets.symmetric(
             horizontal:10,
             vertical: 10
           ),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-          backgroundColor: Colors.lightBlue[100],
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+              topRight: Radius.circular(20)
+            )
+          ),
+          backgroundColor: Colors.blue[500],
           children: <Widget>[
             Container(
               child: Column(
