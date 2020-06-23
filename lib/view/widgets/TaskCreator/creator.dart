@@ -23,7 +23,7 @@ class _CreatorDialogState extends State<CreatorDialog> {
   Task _task = new Task(
     id: '',
     title: '', //ok
-    priority: '', //ok
+    priority: 'normal', //ok
     description: '',//ok
     steps: new List<TaskStep>(),
     labels: new List<String>(),
@@ -190,7 +190,6 @@ class _CreatorDialogState extends State<CreatorDialog> {
                           setState(() {
                             tempLabel = value;
                           });
-                          print(tempLabel);
                         },
                         controller: _labelController,
                       ),

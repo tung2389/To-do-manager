@@ -30,7 +30,7 @@ class Task {
     'title': title,
     'priority': priority,
     'description': description,
-    'steps': steps.map((TaskStep s) => s.toMap()),
+    'steps': steps.map((TaskStep s) => s.toMap()).toList(),
     'labels': labels,
     'startTime': startTime,
     'endTime': endTime,
