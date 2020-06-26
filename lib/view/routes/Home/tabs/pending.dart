@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../widgets/Task/task.dart';
-// import '../../../widgets/TaskCreator/creator.dart';
+import '../../../../model/task.dart';
 
 class PendingTab extends StatelessWidget {
   Future<String> _getUID() async {
@@ -36,8 +36,9 @@ class PendingTab extends StatelessWidget {
                     return ListView.builder(
                       padding: EdgeInsets.all(10.0),
                       itemBuilder: (context, index) {
-                        Map<String, dynamic> task = taskList[index].data;
-                        task['id'] = taskList[index].documentID; //insert ID to Map task
+                        Map<String, dynamic> rawTask = taskList[index].data;
+                        rawTask['id'] = taskList[index].documentID; //insert ID to Map task
+                        Task task = Task.fromMap(rawTask);
                         return TaskView(
                           task: task,
                           parentContext: context

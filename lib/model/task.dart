@@ -26,9 +26,22 @@ class Task {
     this.labels
   });
 
-  // Task.fromMap(Map<String, dynamic> task) {
-
-  // }
+  Task.fromMap(Map<String, dynamic> task) {
+    id = task['id'];
+    title = task['title'];
+    priority = task['priority'];
+    description = task['description'];
+    steps = task['steps']
+              .map<TaskStep>((step) => TaskStep.fromMap(step))
+              .toList();
+    labels = task['labels']
+              .map<String>((label) => label.toString())
+              .toList();
+    startTime = task['startTime'].toString();
+    endTime = task['endTime'].toString();
+    status = task['status'];
+    createdAt = task['createdAt'].toString();
+  }
 
   Map <String, dynamic> toMap() => {
     'id': id,

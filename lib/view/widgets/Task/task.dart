@@ -3,11 +3,12 @@ import '../loadingIndicator/loadingIndicator.dart';
 import '../snackBar/error.dart';
 import '../snackBar/success.dart';
 import '../../../controller/todo.dart';
+import '../../../model/task.dart';
 
 class TaskView extends StatefulWidget {
-  final Map<String, dynamic> task;
+  Task task;
   final BuildContext parentContext;
-  TaskView({this.task, this.parentContext}) : super(key: Key(task['id']));
+  TaskView({this.task, this.parentContext}) : super(key: Key(task.id));
   // TaskView({this.task}) : super(key: task);
 
   @override
@@ -15,6 +16,7 @@ class TaskView extends StatefulWidget {
 }
 
 class _TaskViewState extends State<TaskView> {
+  // Task task = widget.task;
   bool loading = false;
   final TaskService _taskService = new TaskService();
 
@@ -25,7 +27,7 @@ class _TaskViewState extends State<TaskView> {
       builder: (BuildContext context) {
         return SimpleDialog(
           title: TextFormField(
-            initialValue: widget.task['title'],
+            initialValue: widget.task.title,
             // '${widget.task['title']}',
             // style: TextStyle(
             //   fontSize: 18,
@@ -49,13 +51,13 @@ class _TaskViewState extends State<TaskView> {
                   Row(
                     children: <Widget>[
                       Text('Description: '),
-                      Text('${widget.task['description']}'),
+                      Text('${widget.task.description}'),
                     ],
                   ),
                   Row(
                     children: <Widget>[
                       Text('Priority: '),
-                      Text('${widget.task['priority']}')
+                      Text('${widget.task.priority}')
                     ],
                   ),
                 ],
@@ -76,15 +78,15 @@ class _TaskViewState extends State<TaskView> {
             loading ?
             Loading() :
             Checkbox(
-              value: widget.task['status'] == 'completed' ? true : false, 
+              value: widget.task.status== 'completed' ? true : false, 
               onChanged: 
-                widget.task['status'] == 'completed' 
+                widget.task.status == 'completed' 
                 ? null :
                 (bool value) async {
                 setState(() {
                   loading = true;
                 });
-                dynamic result = await _taskService.markAsCompleted(widget.task['id']);
+                dynamic result = await _taskService.markAsCompleted(widget.task.id);
                                             //  .whenComplete(() {
                                             //     setState(() {
                                             //       checked = value;
@@ -109,7 +111,7 @@ class _TaskViewState extends State<TaskView> {
               // activeColor: ,
             ),
             Text(
-              '${widget.task['title']}'
+              '${widget.task.title}'
             ),  
           ],
         )

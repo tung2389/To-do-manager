@@ -3,7 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../widgets/Task/task.dart';
 import '../../../../model/task.dart';
-// import '../../../widgets/TaskCreator/creator.dart';
 
 class CompletedTab extends StatelessWidget {
   Future<String> _getUID() async {
@@ -37,9 +36,9 @@ class CompletedTab extends StatelessWidget {
                     return ListView.builder(
                       padding: EdgeInsets.all(10.0),
                       itemBuilder: (context, index) {
-                        Map<String, dynamic> task = taskList[index].data;
-                        task['id'] = taskList[index].documentID; //insert ID to Map task
-                        //newTask = Task.
+                        Map<String, dynamic> rawTask = taskList[index].data;
+                        rawTask['id'] = taskList[index].documentID; //insert ID to Map task
+                        Task task = Task.fromMap(rawTask);
                         return TaskView(
                           task: task,
                           parentContext: context
