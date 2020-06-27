@@ -224,21 +224,43 @@ class _EditorState extends State<Editor> {
             ),
           ),
         ),
-        RaisedButton(
-          child: _loading 
-          ? Loading() 
-          : Text(
-            'Save',
-            style: TextStyle(color: Colors.white),
-          ),
-          color: Colors.red[400],
-          onPressed: () {
-            setState(() {
-              _loading = true;
-            });
-            _taskService.createTodo(_task);
-            Navigator.pop(context); // Close the dialog
-          },
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(
+                right: 15
+              ),
+              child: RaisedButton(
+                child: _loading 
+                ? Loading() 
+                : Text(
+                  'Save',
+                  style: TextStyle(color: Colors.white),
+                ),
+                color: Colors.red[400],
+                onPressed: () {
+                  setState(() {
+                    _loading = true;
+                  });
+                  _taskService.updateTask(_task.id, _task).whenComplete(() {
+                    setState(() {
+                      _loading = false;
+                    });    
+                    Navigator.pop(context); // Close the dialog   
+                  });
+                },
+              ),
+            ),
+            RaisedButton(
+              child: Text(
+                'Cancel',
+                //style: TextStyle(color: Colors.white),
+              ),
+              //color: Colors.red[400],
+              onPressed: () => Navigator.pop(context) // Close the dialog
+            )
+          ],
         )
       ],
     );

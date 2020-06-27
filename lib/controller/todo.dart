@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import './local.dart';
 import '../model/task.dart';
-// import 'package:flutter/material.dart';
 
 class TaskService {
   final _db = Firestore.instance;
@@ -11,8 +11,7 @@ class TaskService {
     newTask['createdAt'] = DateTime.now();
     // We will take the id from firebase which is automatically generated
     newTask.remove('id');
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String uid = prefs.getString('uid');
+    String uid = await getUserId();
     try {
       final DocumentReference taskRef = await _db.collection('user')
                                                 .document(uid)
@@ -25,9 +24,24 @@ class TaskService {
     }
   }
 
+  Future updateTask(String taskId, Task task) async {
+    String uid = await getUserId();
+    Map<String, dynamic> newTask = task.toMap();
+    try{
+      await _db.collection('user') 
+        .document(uid)
+        .collection('todo')
+        .document(taskId)
+        .setData(newTask);
+    } catch(e) {
+      return Future.error(
+        'There was an error updating your task'
+      );
+    }
+  }
+
   Future updateSteps(String taskId, List<String>stepList) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String uid = prefs.getString('uid');
+    String uid = await getUserId();
     try{
       await _db.collection('user') 
         .document(uid)
@@ -45,8 +59,7 @@ class TaskService {
   }
 
   Future markAsCompleted(String taskId) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String uid = prefs.getString('uid');
+    String uid = await getUserId();
     try{
       await _db.collection('user')
               .document(uid)

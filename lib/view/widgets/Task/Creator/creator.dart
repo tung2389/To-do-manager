@@ -210,21 +210,42 @@ class _CreatorState extends State<Creator> {
             ),
           ),
         ),
-        RaisedButton(
-          child: _loading 
-          ? Loading() 
-          : Text(
-            'Create new task',
-            style: TextStyle(color: Colors.white),
-          ),
-          color: Colors.red[400],
-          onPressed: () {
-            setState(() {
-              _loading = true;
-            });
-            _taskService.createTodo(_task);
-             Navigator.pop(context); // Close the dialog
-          },
+        Row(
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(
+                right: 15
+              ),
+              child: RaisedButton(
+                child: _loading 
+                ? Loading() 
+                : Text(
+                  'Create new task',
+                  style: TextStyle(color: Colors.white),
+                ),
+                color: Colors.red[400],
+                onPressed: () {
+                  setState(() {
+                    _loading = true;
+                  });
+                  _taskService.createTodo(_task).whenComplete(() {
+                    setState(() {
+                      _loading = false;
+                    });
+                    Navigator.pop(context); // Close the dialog
+                  });
+                },
+              ),
+            ),
+            RaisedButton(
+              child: Text(
+                'Cancel',
+                //style: TextStyle(color: Colors.white),
+              ),
+              //color: Colors.red[400],
+              onPressed: () => Navigator.pop(context) // Close the dialog
+            )
+          ],
         )
       ],
     );
