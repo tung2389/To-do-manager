@@ -1,46 +1,47 @@
 import 'package:flutter/material.dart';
-import 'package:to_do_manager/view/widgets/TaskCreator/label.dart';
-import '../dateTime/dateTime.dart';
-import './dropdown.dart';
-import '../loadingIndicator/loadingIndicator.dart';
-import './step.dart';
-import '../../../controller/todo.dart';
-import '../../../model/task.dart';
-import '../../../model/step.dart';
+import '../../loadingIndicator/loadingIndicator.dart';
+import '../../dateTime/dateTime.dart';
 
-class CreatorDialog extends StatefulWidget {
-  CreatorDialog({Key key}) : super(key: key);
+import '../label.dart';
+import '../dropdown.dart';
+import '../step.dart';
 
-  @override
-  _CreatorDialogState createState() => _CreatorDialogState();
+import '../../snackBar/error.dart';
+import '../../snackBar/success.dart';
+
+import '../../../../controller/todo.dart';
+
+import '../../../../model/step.dart';
+import '../../../../model/task.dart';
+
+class Editor extends StatefulWidget {
+  final Task task;
+  final BuildContext parentContext;
+  Editor({this.task, this.parentContext}) : super(key: Key(task.id));
+  // TaskView({this.task}) : super(key: task);
+
+  @override 
+  // Pass task property from StatefulWidget to the State widget
+  _EditorState createState() => _EditorState(task);
 }
 
-class _CreatorDialogState extends State<CreatorDialog> {
-  final TaskService _taskService = new TaskService();
-  bool loading = false;
-  final ScrollController _scrollBarController = ScrollController();
+class _EditorState extends State<Editor> {
+  Task _task;
+  _EditorState(Task task) {
+    _task = task;
+  }
+  bool _loading = false;
 
-  Task _task = new Task(
-    id: '',
-    title: '', 
-    priority: 'normal', 
-    description: '',
-    steps: new List<TaskStep>(),
-    labels: new List<String>(),
-    startTime: '',
-    endTime: '',
-    status: 'pending',
-    createdAt: '' 
-  );
+  final _scrollBarController = ScrollController();
+  final _stepController = TextEditingController();
+  final _labelController = TextEditingController();
+  final TaskService _taskService = new TaskService();
 
   TaskStep tempStep = TaskStep(
     title: '',
     completed: false
   );
   String tempLabel = '';
-
-  final _stepController = TextEditingController();
-  final _labelController = TextEditingController();
 
   List<Widget> _generateLabelList() {
     List<Widget> labelList = new List<Widget>();
@@ -57,11 +58,24 @@ class _CreatorDialogState extends State<CreatorDialog> {
   @override
   Widget build(BuildContext context) {
     return SimpleDialog(
-      shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(12))
-          ),
+      title: Text('Edit this task'),
+        // '${task['title']}',
+        // style: TextStyle(
+        //   fontSize: 18,
+        //   color: Colors.white
+        // ),
+      //),
+      // contentPadding: EdgeInsets.symmetric(
+      //   horizontal:15,
+      //   vertical: 10
+      // ),
       contentPadding: EdgeInsets.all(24.0),
-      title: Text('Create new task'),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topRight: Radius.circular(20)
+        )
+      ),
+      //backgroundColor: Colors.blue[500],
       children: <Widget>[
         Container(
           height: 300,
@@ -72,11 +86,12 @@ class _CreatorDialogState extends State<CreatorDialog> {
             child: ListView(
               controller: _scrollBarController,
               children: <Widget>[
-                TextField(
+                TextFormField(
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     hintText: "Enter task's title"
                   ),
+                  initialValue: _task.title,
                   onChanged: (value) {
                     setState(() {
                       _task.title = value;
@@ -84,11 +99,12 @@ class _CreatorDialogState extends State<CreatorDialog> {
                   },
                 ),
 
-                TextField(
+                TextFormField(
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     hintText: "Enter task's description"
                   ),
+                  initialValue: _task.description,
                   onChanged: (value) {
                     setState(() {
                       _task.description = value;
@@ -99,6 +115,7 @@ class _CreatorDialogState extends State<CreatorDialog> {
 
                 Text('Choose level'),
                 DropDownMenu(
+                  defaultValue: _task.priority,
                   changeOption: (value) {
                     setState(() {
                       _task.priority = value;
@@ -109,6 +126,7 @@ class _CreatorDialogState extends State<CreatorDialog> {
 
                 Text('Start time'),
                 BasicDateTimeField(
+                  initialValue: DateTime.tryParse(_task.startTime),
                   onChanged: (value) {
                     setState(() {
                       _task.startTime = value;
@@ -119,6 +137,7 @@ class _CreatorDialogState extends State<CreatorDialog> {
 
                 Text('End time'),
                 BasicDateTimeField(
+                  initialValue: DateTime.tryParse(_task.endTime),
                   onChanged: (value) {
                     setState(() {
                       _task.endTime = value;
@@ -134,14 +153,13 @@ class _CreatorDialogState extends State<CreatorDialog> {
                       tooltip: 'Add new steps',
                       onPressed: () {
                       setState(() {
-                          //_task.steps.add(tempStep); // We cannot do this because this will add the reference of tempStep.
                           _task.steps.add(TaskStep.clone(tempStep));
                         });
                       _stepController.clear();
                       },
                     ),
                     Expanded( // We need expanded so the textfield take the remaining space of row
-                      child: TextField(
+                      child: TextFormField(
                         decoration: InputDecoration(
                           border: InputBorder.none,
                           hintText: "Add more step"
@@ -181,7 +199,7 @@ class _CreatorDialogState extends State<CreatorDialog> {
                       }
                     ),
                     Expanded( // We need expanded so the textfield take the remaining space of row
-                      child: TextField(
+                      child: TextFormField(
                         decoration: InputDecoration(
                           border: InputBorder.none,
                           hintText: "Add new label"
@@ -207,23 +225,22 @@ class _CreatorDialogState extends State<CreatorDialog> {
           ),
         ),
         RaisedButton(
-          child: loading 
+          child: _loading 
           ? Loading() 
           : Text(
-            'Create new task',
+            'Save',
             style: TextStyle(color: Colors.white),
           ),
           color: Colors.red[400],
           onPressed: () {
             setState(() {
-              loading = true;
+              _loading = true;
             });
             _taskService.createTodo(_task);
-             Navigator.pop(context); // Close the dialog
+            Navigator.pop(context); // Close the dialog
           },
         )
       ],
     );
   }
 }
-

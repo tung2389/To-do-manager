@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import './Editor/editor.dart';
 import '../loadingIndicator/loadingIndicator.dart';
 import '../snackBar/error.dart';
 import '../snackBar/success.dart';
@@ -6,76 +7,35 @@ import '../../../controller/todo.dart';
 import '../../../model/task.dart';
 
 class TaskView extends StatefulWidget {
-  Task task;
+  final Task task;
   final BuildContext parentContext;
   TaskView({this.task, this.parentContext}) : super(key: Key(task.id));
-  // TaskView({this.task}) : super(key: task);
 
-  @override
+  @override 
+  // Pass task property from StatefulWidget to the State widget
   _TaskViewState createState() => _TaskViewState();
 }
 
 class _TaskViewState extends State<TaskView> {
-  // Task task = widget.task;
-  bool loading = false;
+  bool _loading = false;
   final TaskService _taskService = new TaskService();
 
-  void _showContent(BuildContext context) {
-    showDialog(
-      context: context,
-      barrierDismissible: true,
-      builder: (BuildContext context) {
-        return SimpleDialog(
-          title: TextFormField(
-            initialValue: widget.task.title,
-            // '${widget.task['title']}',
-            // style: TextStyle(
-            //   fontSize: 18,
-            //   color: Colors.white
-            // ),
-          ),
-          contentPadding: EdgeInsets.symmetric(
-            horizontal:10,
-            vertical: 10
-          ),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-              topRight: Radius.circular(20)
-            )
-          ),
-          backgroundColor: Colors.blue[500],
-          children: <Widget>[
-            Container(
-              child: Column(
-                children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      Text('Description: '),
-                      Text('${widget.task.description}'),
-                    ],
-                  ),
-                  Row(
-                    children: <Widget>[
-                      Text('Priority: '),
-                      Text('${widget.task.priority}')
-                    ],
-                  ),
-                ],
-              ),
-            ) 
-          ],
-        );
-      }
-    );
-  }
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => _showContent(context),
+      onTap: () => showDialog(
+        context: context,
+        barrierDismissible: true,
+        builder: (BuildContext context) {
+          return Editor(
+            task: widget.task,
+          );
+        }
+      ),
       child: Card(
         child: Row(
           children: <Widget>[
-            loading ?
+            _loading ?
             Loading() :
             Checkbox(
               value: widget.task.status== 'completed' ? true : false, 
@@ -84,7 +44,7 @@ class _TaskViewState extends State<TaskView> {
                 ? null :
                 (bool value) async {
                 setState(() {
-                  loading = true;
+                  _loading = true;
                 });
                 dynamic result = await _taskService.markAsCompleted(widget.task.id);
                                             //  .whenComplete(() {

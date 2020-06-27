@@ -3,8 +3,9 @@ import 'package:intl/intl.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 
 class BasicDateTimeField extends StatelessWidget {
-  BasicDateTimeField({this.onChanged});
+  final DateTime initialValue;
   final void Function(dynamic value) onChanged;
+  BasicDateTimeField({this.initialValue, this.onChanged});
 
   final format = DateFormat("yyyy-MM-dd HH:mm");
   @override
@@ -12,6 +13,7 @@ class BasicDateTimeField extends StatelessWidget {
     return Column(children: <Widget>[
       DateTimeField(
         format: format,
+        initialValue: initialValue,
         onShowPicker: (context, currentValue) async {
           final date = await showDatePicker(
               context: context,

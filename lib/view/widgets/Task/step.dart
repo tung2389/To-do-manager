@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../model/step.dart';
+import 'package:to_do_manager/model/step.dart';
 
 class StepView extends StatefulWidget {
   final TaskStep step;
