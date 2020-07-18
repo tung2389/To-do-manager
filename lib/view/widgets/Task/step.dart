@@ -3,7 +3,8 @@ import 'package:to_do_manager/model/step.dart';
 
 class StepView extends StatefulWidget {
   final TaskStep step;
-  StepView({this.step, Key key}) : super(key: key);
+  final void Function(bool value) updateStep;
+  StepView({this.step, this.updateStep, Key key}) : super(key: key);
 
   @override
   _StepViewState createState() => _StepViewState();
@@ -17,7 +18,7 @@ class _StepViewState extends State<StepView> {
          children: <Widget>[
            Checkbox(
              value: widget.step.completed,
-             onChanged: (bool test) => {},
+             onChanged: (bool value) => widget.updateStep(value),
            ),
            Text('${widget.step.title}')
          ],

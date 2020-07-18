@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import './local.dart';
 import '../model/task.dart';
 
@@ -55,7 +54,6 @@ class TaskService {
         'There was an error updating your steps'
       );
     }
-    
   }
 
   Future markAsCompleted(String taskId) async {

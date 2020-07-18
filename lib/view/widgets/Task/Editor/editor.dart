@@ -177,7 +177,12 @@ class _EditorState extends State<Editor> {
                 ListView.builder(
                   itemBuilder: (context, index) {
                     return StepView(
-                      step: _task.steps[index]
+                      step: _task.steps[index],
+                      updateStep: (bool value) {
+                        setState(() {
+                          _task.steps[index].completed = value;
+                        });
+                      },
                     );
                   },
                   itemCount: _task.steps.length,
