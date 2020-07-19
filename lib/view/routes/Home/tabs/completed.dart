@@ -41,7 +41,8 @@ class CompletedTab extends StatelessWidget {
                         Task task = Task.fromMap(rawTask);
                         return TaskView(
                           task: task,
-                          parentContext: context
+                          parentContext: context,
+                          mode: 'view'
                         );
                       }, 
                       itemCount: taskList.length,

@@ -80,11 +80,9 @@ class _EditorState extends State<Editor> {
         Container(
           height: 300,
           width: 300,
-          child: Scrollbar(
-            isAlwaysShown: true,
-            controller: _scrollBarController,
-            child: ListView(
-              controller: _scrollBarController,
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 TextFormField(
                   decoration: InputDecoration(
@@ -131,7 +129,7 @@ class _EditorState extends State<Editor> {
                     setState(() {
                       _task.startTime = value;
                     });
-                  },
+                  }
                 ),
                 SizedBox(height: 10),
 

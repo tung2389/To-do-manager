@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 class DropDownMenu extends StatefulWidget {
   final String defaultValue;
   final void Function(dynamic value) changeOption;
-  DropDownMenu({this.defaultValue, this.changeOption});
+  final bool enabled;
+  DropDownMenu({this.defaultValue, this.changeOption, this.enabled = true});
 
   @override
   _DropDownMenuState createState() => _DropDownMenuState(defaultValue);
@@ -18,12 +19,16 @@ class _DropDownMenuState extends State<DropDownMenu> {
   Widget build(BuildContext context) {
     return DropdownButton<String>(
       value: _defaultValue,
-      onChanged: (String newValue) {
-        setState(() {
-          _defaultValue = newValue;
-        });
-        widget.changeOption(newValue);
-      },
+      onChanged: (
+        widget.enabled 
+        ? (String newValue) {
+          setState(() {
+            _defaultValue = newValue;
+          });
+          widget.changeOption(newValue);
+        } 
+        : (String newValue) {}
+      ),
       items: <String>['trivial', 'normal', 'important', 'essential']
         .map<DropdownMenuItem<String>>((String value) {
           return DropdownMenuItem<String>(

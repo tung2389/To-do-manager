@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import './Editor/editor.dart';
+import './ViewOnly/view.dart';
 import '../loadingIndicator/loadingIndicator.dart';
 import '../snackBar/error.dart';
 import '../snackBar/success.dart';
@@ -9,7 +10,8 @@ import '../../../model/task.dart';
 class TaskView extends StatefulWidget {
   final Task task;
   final BuildContext parentContext;
-  TaskView({this.task, this.parentContext}) : super(key: Key(task.id));
+  final String mode;
+  TaskView({this.task, this.parentContext, this.mode}) : super(key: Key(task.id));
 
   @override 
   // Pass task property from StatefulWidget to the State widget
@@ -27,9 +29,16 @@ class _TaskViewState extends State<TaskView> {
         context: context,
         barrierDismissible: true,
         builder: (BuildContext context) {
-          return Editor(
-            task: widget.task,
-          );
+          if(widget.mode == 'edit') {
+            return Editor(
+              task: widget.task,
+            );
+          }
+          else {
+            return ViewOnly(
+              task: widget.task
+            );
+          }
         }
       ),
       child: Card(

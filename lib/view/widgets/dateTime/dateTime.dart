@@ -5,13 +5,15 @@ import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 class BasicDateTimeField extends StatelessWidget {
   final DateTime initialValue;
   final void Function(dynamic value) onChanged;
-  BasicDateTimeField({this.initialValue, this.onChanged});
+  final bool enabled;
+  BasicDateTimeField({this.initialValue, this.onChanged, this.enabled = true});
 
   final format = DateFormat("yyyy-MM-dd HH:mm");
   @override
   Widget build(BuildContext context) {
     return Column(children: <Widget>[
       DateTimeField(
+        enabled: enabled,
         format: format,
         initialValue: initialValue,
         onShowPicker: (context, currentValue) async {
