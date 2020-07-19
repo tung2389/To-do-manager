@@ -69,11 +69,10 @@ class _CreatorState extends State<Creator> {
         Container(
           height: 300,
           width: 300,
-          child: Scrollbar(
-            isAlwaysShown: true,
-            controller: _scrollBarController,
-            child: ListView(
-              controller: _scrollBarController,
+          child: SingleChildScrollView(
+            // controller: _scrollBarController,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 TextField(
                   decoration: InputDecoration(
@@ -211,7 +210,7 @@ class _CreatorState extends State<Creator> {
                   children: _generateLabelList(),
                 ),
                 SizedBox(height: 10),
-              ],
+              ]
             ),
           ),
         ),
