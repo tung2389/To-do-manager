@@ -27,7 +27,7 @@ class BasicDateTimeField extends StatelessWidget {
                   TimeOfDay.fromDateTime(currentValue ?? DateTime.now()),
             );
 
-            onChanged(DateTimeField.combine(date, time).toString());
+            onChanged(DateTimeField.combine(date, time));
             return DateTimeField.combine(date, time);
           } else {
             return currentValue;

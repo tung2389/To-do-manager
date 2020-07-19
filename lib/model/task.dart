@@ -8,10 +8,10 @@ class Task {
   String description;
   List<TaskStep> steps;
   List<String> labels;
-  String startTime;
-  String endTime;
+  DateTime startTime;
+  DateTime endTime;
   String status;
-  String createdAt;
+  DateTime createdAt;
 
   Task({
     @required this.id,
@@ -37,10 +37,10 @@ class Task {
     labels = task['labels']
               .map<String>((label) => label.toString())
               .toList();
-    startTime = task['startTime'].toString();
-    endTime = task['endTime'].toString();
+    startTime = task['startTime'].toDate();
+    endTime = task['endTime'].toDate();
     status = task['status'];
-    createdAt = task['createdAt'].toString();
+    createdAt = task['createdAt'].toDate();
   }
 
   Map <String, dynamic> toMap() => {

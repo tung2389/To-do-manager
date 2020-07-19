@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+//import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import './view/routes/Home/home.dart';
 import './view/routes/register.dart';
 import './view/routes/login.dart';
 import './view/routes/verify.dart';
 
+// FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

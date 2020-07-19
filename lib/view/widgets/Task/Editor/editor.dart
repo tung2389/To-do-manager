@@ -126,7 +126,7 @@ class _EditorState extends State<Editor> {
 
                 Text('Start time'),
                 BasicDateTimeField(
-                  initialValue: DateTime.tryParse(_task.startTime),
+                  initialValue: _task.startTime,
                   onChanged: (value) {
                     setState(() {
                       _task.startTime = value;
@@ -137,7 +137,7 @@ class _EditorState extends State<Editor> {
 
                 Text('End time'),
                 BasicDateTimeField(
-                  initialValue: DateTime.tryParse(_task.endTime),
+                  initialValue: _task.endTime,
                   onChanged: (value) {
                     setState(() {
                       _task.endTime = value;

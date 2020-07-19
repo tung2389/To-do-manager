@@ -30,10 +30,10 @@ class _CreatorState extends State<Creator> {
     description: '',
     steps: new List<TaskStep>(),
     labels: new List<String>(),
-    startTime: '',
-    endTime: '',
+    startTime: DateTime.now(),
+    endTime: DateTime.now().add(new Duration(minutes: 30)),
     status: 'pending',
-    createdAt: '' 
+    createdAt: DateTime.now() 
   );
 
   TaskStep tempStep = TaskStep(
