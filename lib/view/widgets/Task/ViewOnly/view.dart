@@ -5,10 +5,10 @@ import '../label.dart';
 import '../dropdown.dart';
 import '../step.dart';
 
-import '../../../../model/task.dart';
+import '../../../../model/todo.dart';
 
 class ViewOnly extends StatelessWidget {
-  final Task task;
+  final TodoTask task;
   const ViewOnly({this.task});
 
   List<Widget> _generateLabelList() {

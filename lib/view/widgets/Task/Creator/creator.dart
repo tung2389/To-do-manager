@@ -7,7 +7,7 @@ import '../dropdown.dart';
 import '../step.dart';
 
 import '../../../../controller/todo.dart';
-import '../../../../model/task.dart';
+import '../../../../model/todo.dart';
 import '../../../../model/step.dart';
 
 
@@ -23,7 +23,7 @@ class _CreatorState extends State<Creator> {
   bool _loading = false;
   final ScrollController _scrollBarController = ScrollController();
 
-  Task _task = new Task(
+  TodoTask _task = new TodoTask(
     id: '',
     title: '', 
     priority: 'normal', 

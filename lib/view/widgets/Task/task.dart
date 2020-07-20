@@ -5,10 +5,10 @@ import '../loadingIndicator/loadingIndicator.dart';
 import '../snackBar/error.dart';
 import '../snackBar/success.dart';
 import '../../../controller/todo.dart';
-import '../../../model/task.dart';
+import '../../../model/todo.dart';
 
 class TaskView extends StatefulWidget {
-  final Task task;
+  final TodoTask task;
   final BuildContext parentContext;
   final String mode;
   TaskView({this.task, this.parentContext, this.mode}) : super(key: Key(task.id));

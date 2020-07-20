@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../model/step.dart';
+import 'step.dart';
 
-class Task {
+class TodoTask {
   String id;
   String title;
   String priority;
@@ -13,7 +13,7 @@ class Task {
   String status;
   DateTime createdAt;
 
-  Task({
+  TodoTask({
     @required this.id,
     @required this.title,
     @required this.priority,
@@ -26,7 +26,7 @@ class Task {
     this.labels
   });
 
-  Task.fromMap(Map<String, dynamic> task) {
+  TodoTask.fromMap(Map<String, dynamic> task) {
     id = task['id'];
     title = task['title'];
     priority = task['priority'];

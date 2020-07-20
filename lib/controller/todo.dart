@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import './local.dart';
-import '../model/task.dart';
+import '../model/todo.dart';
 
 class TodoService {
   final _db = Firestore.instance;
 
-  Future create(Task task) async {
+  Future create(TodoTask task) async {
     Map<String, dynamic> newTask = task.toMap();
     newTask['createdAt'] = DateTime.now();
     // We will take the id from firebase which is automatically generated
@@ -23,7 +23,7 @@ class TodoService {
     }
   }
 
-  Future update(String taskId, Task task) async {
+  Future update(String taskId, TodoTask task) async {
     String uid = await getUserId();
     Map<String, dynamic> newTask = task.toMap();
     try{

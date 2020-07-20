@@ -12,10 +12,10 @@ import '../../snackBar/success.dart';
 import '../../../../controller/todo.dart';
 
 import '../../../../model/step.dart';
-import '../../../../model/task.dart';
+import '../../../../model/todo.dart';
 
 class Editor extends StatefulWidget {
-  final Task task;
+  final TodoTask task;
   final BuildContext parentContext;
   Editor({this.task, this.parentContext}) : super(key: Key(task.id));
   // TaskView({this.task}) : super(key: task);
@@ -26,8 +26,8 @@ class Editor extends StatefulWidget {
 }
 
 class _EditorState extends State<Editor> {
-  Task _task;
-  _EditorState(Task task) {
+  TodoTask _task;
+  _EditorState(TodoTask task) {
     _task = task;
   }
   bool _loading = false;
