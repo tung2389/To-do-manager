@@ -23,7 +23,7 @@ class DailyService {
     }
   }
 
-  Future updateTask(String taskId, Task task) async {
+  Future update(String taskId, Task task) async {
     String uid = await getUserId();
     Map<String, dynamic> newTask = task.toMap();
     try{

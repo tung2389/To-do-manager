@@ -232,7 +232,7 @@ class _CreatorState extends State<Creator> {
                   setState(() {
                     _loading = true;
                   });
-                  _todoService.createTodo(_task).whenComplete(() {
+                  _todoService.create(_task).whenComplete(() {
                     setState(() {
                       _loading = false;
                     });

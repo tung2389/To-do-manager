@@ -246,7 +246,7 @@ class _EditorState extends State<Editor> {
                   setState(() {
                     _loading = true;
                   });
-                  _todoService.updateTask(_task.id, _task).whenComplete(() {
+                  _todoService.update(_task.id, _task).whenComplete(() {
                     setState(() {
                       _loading = false;
                     });    
