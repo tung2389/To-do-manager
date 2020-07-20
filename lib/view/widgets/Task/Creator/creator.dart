@@ -19,7 +19,7 @@ class Creator extends StatefulWidget {
 }
 
 class _CreatorState extends State<Creator> {
-  final TaskService _taskService = new TaskService();
+  final TodoService _todoService = new TodoService();
   bool _loading = false;
   final ScrollController _scrollBarController = ScrollController();
 
@@ -232,7 +232,7 @@ class _CreatorState extends State<Creator> {
                   setState(() {
                     _loading = true;
                   });
-                  _taskService.createTodo(_task).whenComplete(() {
+                  _todoService.createTodo(_task).whenComplete(() {
                     setState(() {
                       _loading = false;
                     });

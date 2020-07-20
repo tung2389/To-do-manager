@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import './local.dart';
 import '../model/task.dart';
 
-class TaskService {
+class TodoService {
   final _db = Firestore.instance;
 
   Future createTodo(Task task) async {

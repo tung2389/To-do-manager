@@ -35,13 +35,13 @@ class NavDrawer extends StatelessWidget {
               // ...
             },
           ),
-          ListTile(
-            title: Text('Future'),
-            onTap: () {
-              // Update the state of the app.
-              // ...
-            },
-          ),
+          // ListTile(
+          //   title: Text('Future'),
+          //   onTap: () {
+          //     // Update the state of the app.
+          //     // ...
+          //   },
+          // ),
         ],
       ),
     );
