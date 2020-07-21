@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../../widgets/Task/task.dart';
+import '../../../widgets/Task/Todo/todo.dart';
 import '../../../../model/todo.dart';
 
 class PendingTab extends StatelessWidget {
@@ -39,7 +39,7 @@ class PendingTab extends StatelessWidget {
                         Map<String, dynamic> rawTask = taskList[index].data;
                         rawTask['id'] = taskList[index].documentID; //insert ID to Map task
                         TodoTask task = TodoTask.fromMap(rawTask);
-                        return TaskView(
+                        return TodoTaskView(
                           task: task,
                           parentContext: context,
                           mode: 'edit',
@@ -49,18 +49,6 @@ class PendingTab extends StatelessWidget {
                     );
                   }
                 },
-                // buildItem(index, snapshot.data.documents[index]
-                //   child: TaskView(
-                //   task: Task(
-                //     id: '1234',
-                //     title: 'Do your homework',
-                //     priority: 'medium',
-                //     description: 'Do your Math homework',
-                //     startTime: '',
-                //     endTime: '',
-                //     createdAt: ''
-                //   )
-                // ),
             );
           }
           else {

@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
-import './Editor/editor.dart';
-import './ViewOnly/view.dart';
-import '../loadingIndicator/loadingIndicator.dart';
-import '../snackBar/error.dart';
-import '../snackBar/success.dart';
-import '../../../controller/todo.dart';
-import '../../../model/todo.dart';
+import 'Editor/editor.dart';
+import 'ViewOnly/view.dart';
+import '../../loadingIndicator/loadingIndicator.dart';
+import '../../snackBar/error.dart';
+import '../../snackBar/success.dart';
+import '../../../../controller/todo.dart';
+import '../../../../model/todo.dart';
 
-class TaskView extends StatefulWidget {
+class TodoTaskView extends StatefulWidget {
   final TodoTask task;
   final BuildContext parentContext;
   final String mode;
-  TaskView({this.task, this.parentContext, this.mode}) : super(key: Key(task.id));
+  TodoTaskView({this.task, this.parentContext, this.mode}) : super(key: Key(task.id));
 
   @override 
   // Pass task property from StatefulWidget to the State widget
-  _TaskViewState createState() => _TaskViewState();
+  _TodoTaskViewState createState() => _TodoTaskViewState();
 }
 
-class _TaskViewState extends State<TaskView> {
+class _TodoTaskViewState extends State<TodoTaskView> {
   bool _loading = false;
   final TodoService _todoService = new TodoService();
 
