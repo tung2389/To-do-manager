@@ -12,7 +12,7 @@ class DailyPage extends StatelessWidget {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          title: Text('List of to-do tasks'),
+          title: Text('List of daily tasks'),
           bottom: TabBar(
             tabs: [
               Tab(

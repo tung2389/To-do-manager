@@ -24,15 +24,13 @@ class NavDrawer extends StatelessWidget {
           ListTile(
             title: Text('To do'),
             onTap: () {
-              // Update the state of the app.
-              // ...
+              Navigator.pushReplacementNamed(context, '/todo');
             },
           ),
           ListTile(
             title: Text('Daily'),
             onTap: () {
-              // Update the state of the app.
-              // ...
+              Navigator.pushReplacementNamed(context, '/daily');
             },
           ),
           // ListTile(

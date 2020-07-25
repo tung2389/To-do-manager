@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../dateTime/dateTime.dart';
+import '../../../dateTime/time.dart';
 
 import '../../label.dart';
 import '../../dropdown.dart';
@@ -69,14 +69,14 @@ class DailyViewOnly extends StatelessWidget {
                 SizedBox(height: 20), // Add margin
 
                 Text('Start time'),
-                BasicDateTimeField(
+                BasicTimeField(
                   initialValue: task.startTime,
                   enabled: false,
                 ),
                 SizedBox(height: 10),
 
                 Text('End time'),
-                BasicDateTimeField(
+                BasicTimeField(
                   initialValue: task.endTime,
                   enabled: false,
                 ),
