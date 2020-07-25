@@ -7,9 +7,9 @@ import '../../step.dart';
 
 import '../../../../../model/todo.dart';
 
-class ViewOnly extends StatelessWidget {
+class TodoViewOnly extends StatelessWidget {
   final TodoTask task;
-  const ViewOnly({this.task});
+  const TodoViewOnly({this.task});
 
   List<Widget> _generateLabelList() {
     List<Widget> labelList = new List<Widget>();

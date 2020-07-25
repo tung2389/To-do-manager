@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import '../../widgets/Drawer/drawer.dart';
-import '../../widgets/Task/Todo/Creator/creator.dart';
+import '../../widgets/Task/Daily/Creator/creator.dart';
 import './tabs/pending.dart';
 import './tabs/completed.dart';
 
-class Home extends StatelessWidget {
+class DailyPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +38,7 @@ class Home extends StatelessWidget {
             context: context,
             barrierDismissible: true,
             builder: (BuildContext context) {
-              return TodoCreator();
+              return DailyCreator();
             }
           ),
           child: const Icon(Icons.add)

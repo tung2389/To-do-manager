@@ -11,14 +11,14 @@ import '../../../../../controller/todo.dart';
 import '../../../../../model/step.dart';
 import '../../../../../model/todo.dart';
 
-class Creator extends StatefulWidget {
-  Creator({Key key}) : super(key: key);
+class TodoCreator extends StatefulWidget {
+  TodoCreator({Key key}) : super(key: key);
 
   @override
-  _CreatorState createState() => _CreatorState();
+  _TodoCreatorState createState() => _TodoCreatorState();
 }
 
-class _CreatorState extends State<Creator> {
+class _TodoCreatorState extends State<TodoCreator> {
   final TodoService _todoService = new TodoService();
   bool _loading = false;
   final ScrollController _scrollBarController = ScrollController();

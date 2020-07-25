@@ -30,12 +30,12 @@ class _TodoTaskViewState extends State<TodoTaskView> {
         barrierDismissible: true,
         builder: (BuildContext context) {
           if(widget.mode == 'edit') {
-            return Editor(
+            return TodoEditor(
               task: widget.task,
             );
           }
           else {
-            return ViewOnly(
+            return TodoViewOnly(
               task: widget.task
             );
           }

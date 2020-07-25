@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../loadingIndicator/loadingIndicator.dart';
-import '../../../dateTime/dateTime.dart';
+import '../../../dateTime/time.dart';
 
 import '../../label.dart';
 import '../../dropdown.dart';
@@ -111,7 +111,7 @@ class _DailyCreatorState extends State<DailyCreator> {
                 SizedBox(height: 20), // Add margin
 
                 Text('Start time'),
-                BasicDateTimeField(
+                BasicTimeField(
                   onChanged: (value) {
                     setState(() {
                       _task.startTime = value;
@@ -121,7 +121,7 @@ class _DailyCreatorState extends State<DailyCreator> {
                 SizedBox(height: 10),
 
                 Text('End time'),
-                BasicDateTimeField(
+                BasicTimeField(
                   onChanged: (value) {
                     setState(() {
                       _task.endTime = value;

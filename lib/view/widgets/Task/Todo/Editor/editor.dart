@@ -14,20 +14,20 @@ import '../../../../../controller/todo.dart';
 import '../../../../../model/step.dart';
 import '../../../../../model/todo.dart';
 
-class Editor extends StatefulWidget {
+class TodoEditor extends StatefulWidget {
   final TodoTask task;
   final BuildContext parentContext;
-  Editor({this.task, this.parentContext}) : super(key: Key(task.id));
+  TodoEditor({this.task, this.parentContext}) : super(key: Key(task.id));
   // TaskView({this.task}) : super(key: task);
 
   @override 
   // Pass task property from StatefulWidget to the State widget
-  _EditorState createState() => _EditorState(task);
+  _TodoEditorState createState() => _TodoEditorState(task);
 }
 
-class _EditorState extends State<Editor> {
+class _TodoEditorState extends State<TodoEditor> {
   TodoTask _task;
-  _EditorState(TodoTask task) {
+  _TodoEditorState(TodoTask task) {
     _task = task;
   }
   bool _loading = false;
