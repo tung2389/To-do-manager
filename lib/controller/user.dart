@@ -6,11 +6,27 @@ class UserService {
 
   final CollectionReference userCollection = Firestore.instance.collection('user');
 
-  Future createUser(String name)  {
+  Future createUser(String name) {
     return userCollection.document(uid).setData({
       'name': name,
+      'lastAccessDay': DateTime.now().day
     });
-    // userCollection.document(uid).collection('daily');
-    // userCollection.document(uid).collection('todo');
+  }
+
+  Future<bool> checkNewDay(today) {
+    return userCollection.document(uid).get().then((user) {
+      if(user.data['lastAccessDay'] != today) {
+        return true;
+      }
+      else {
+        return false;
+      }
+    });
+  }
+
+  Future<void> updatelastAccessDay(newDay) {
+    return userCollection.document(uid).setData({
+      'lastAccessDay': newDay
+    });
   }
 }

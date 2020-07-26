@@ -19,11 +19,11 @@ class DailyService {
       newTask['id'] = taskRef.documentID;
       return newTask;
     } catch(e) {
-      print(e);
+      return null;
     }
   }
 
-  Future update(String taskId, DailyTask task) async {
+  Future<void> update(String taskId, DailyTask task) async {
     String uid = await getUserId();
     Map<String, dynamic> newTask = task.toMap();
     try{
@@ -39,7 +39,7 @@ class DailyService {
     }
   }
 
-  Future updateSteps(String taskId, List<String>stepList) async {
+  Future<void> updateSteps(String taskId, List<String>stepList) async {
     String uid = await getUserId();
     try{
       await _db.collection('user') 
@@ -56,7 +56,7 @@ class DailyService {
     }
   }
 
-  Future markAsCompleted(String taskId) async {
+  Future<bool> markAsCompleted(String taskId) async {
     String uid = await getUserId();
     try{
       await _db.collection('user')
@@ -70,5 +70,17 @@ class DailyService {
     } catch(e) {
       return null;
     }
+  }
+
+  // A function return a Future<List<DocumentSnapshot>>, which is _db.collection('user')...getDocuments.then(...)
+  Future<List<DocumentSnapshot>> getOverdueTasks() async {
+    String uid = await getUserId();
+    return _db.collection('user')
+      .document(uid)
+      .collection('daily')
+      .where('status', isEqualTo: 'pending')
+      .getDocuments().then((snapshots) {
+        return snapshots.documents;
+      });
   }
 }
