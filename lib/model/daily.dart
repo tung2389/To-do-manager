@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'time.dart';
 import 'step.dart';
 
 class DailyTask {
@@ -8,8 +9,8 @@ class DailyTask {
   String description;
   List<TaskStep> steps;
   List<String> labels;
-  DateTime startTime;
-  DateTime endTime;
+  TimeOnly startTime;
+  TimeOnly endTime;
   String status;
   DateTime createdAt;
 
@@ -37,8 +38,8 @@ class DailyTask {
     labels = task['labels']
               .map<String>((label) => label.toString())
               .toList();
-    startTime = task['startTime'].toDate();
-    endTime = task['endTime'].toDate();
+    startTime = TimeOnly.fromMap(task['startTime']);
+    endTime = TimeOnly.fromMap(task['endTime']);
     status = task['status'];
     createdAt = task['createdAt'].toDate();
   }
@@ -50,8 +51,8 @@ class DailyTask {
     'description': description,
     'steps': steps.map((TaskStep s) => s.toMap()).toList(),
     'labels': labels,
-    'startTime': startTime,
-    'endTime': endTime,
+    'startTime': startTime.toMap(),
+    'endTime': endTime.toMap(),
     'status': status,
     'createdAt': createdAt
   };

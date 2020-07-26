@@ -29,7 +29,7 @@ class _DailyEditorState extends State<DailyEditor> {
   }
   bool _loading = false;
 
-  final _scrollBarController = ScrollController();
+  //final _scrollBarController = ScrollController();
   final _stepController = TextEditingController();
   final _labelController = TextEditingController();
   final DailyService _dailyService = new DailyService();
@@ -121,7 +121,10 @@ class _DailyEditorState extends State<DailyEditor> {
 
                 Text('Start time'),
                 BasicTimeField(
-                  initialValue: _task.startTime,
+                  initialValue: TimeOfDay(
+                    hour: _task.startTime.hour, 
+                    minute: _task.startTime.minute
+                  ),
                   onChanged: (value) {
                     setState(() {
                       _task.startTime = value;
@@ -132,7 +135,10 @@ class _DailyEditorState extends State<DailyEditor> {
 
                 Text('End time'),
                 BasicTimeField(
-                  initialValue: _task.endTime,
+                  initialValue: TimeOfDay(
+                    hour: _task.endTime.hour, 
+                    minute: _task.endTime.minute
+                  ),
                   onChanged: (value) {
                     setState(() {
                       _task.endTime = value;

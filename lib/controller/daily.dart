@@ -19,7 +19,7 @@ class DailyService {
       newTask['id'] = taskRef.documentID;
       return newTask;
     } catch(e) {
-      return null;
+      print(e);
     }
   }
 

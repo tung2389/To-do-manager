@@ -32,7 +32,7 @@ class _TodoEditorState extends State<TodoEditor> {
   }
   bool _loading = false;
 
-  final _scrollBarController = ScrollController();
+  //final _scrollBarController = ScrollController();
   final _stepController = TextEditingController();
   final _labelController = TextEditingController();
   final TodoService _todoService = new TodoService();

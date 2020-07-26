@@ -21,7 +21,7 @@ class TodoCreator extends StatefulWidget {
 class _TodoCreatorState extends State<TodoCreator> {
   final TodoService _todoService = new TodoService();
   bool _loading = false;
-  final ScrollController _scrollBarController = ScrollController();
+  //final ScrollController _scrollBarController = ScrollController();
 
   TodoTask _task = new TodoTask(
     id: '',

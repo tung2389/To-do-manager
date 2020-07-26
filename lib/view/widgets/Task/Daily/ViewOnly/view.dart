@@ -70,14 +70,20 @@ class DailyViewOnly extends StatelessWidget {
 
                 Text('Start time'),
                 BasicTimeField(
-                  initialValue: task.startTime,
+                  initialValue: TimeOfDay(
+                    hour: task.startTime.hour, 
+                    minute: task.startTime.minute
+                  ),
                   enabled: false,
                 ),
                 SizedBox(height: 10),
 
                 Text('End time'),
                 BasicTimeField(
-                  initialValue: task.endTime,
+                  initialValue: TimeOfDay(
+                    hour: task.startTime.hour, 
+                    minute: task.startTime.minute
+                  ),
                   enabled: false,
                 ),
                 SizedBox(height: 10),

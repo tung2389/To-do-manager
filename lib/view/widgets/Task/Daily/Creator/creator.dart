@@ -10,6 +10,7 @@ import '../../../../../controller/daily.dart';
 
 import '../../../../../model/step.dart';
 import '../../../../../model/daily.dart';
+import '../../../../../model/time.dart';
 
 class DailyCreator extends StatefulWidget {
   DailyCreator({Key key}) : super(key: key);
@@ -21,7 +22,7 @@ class DailyCreator extends StatefulWidget {
 class _DailyCreatorState extends State<DailyCreator> {
   final DailyService _dailyService = new DailyService();
   bool _loading = false;
-  final ScrollController _scrollBarController = ScrollController();
+  //final ScrollController _scrollBarController = ScrollController();
 
   DailyTask _task = new DailyTask(
     id: '',
@@ -30,8 +31,11 @@ class _DailyCreatorState extends State<DailyCreator> {
     description: '',
     steps: new List<TaskStep>(),
     labels: new List<String>(),
-    startTime: DateTime.now(),
-    endTime: DateTime.now().add(new Duration(minutes: 30)),
+    startTime: TimeOnly.fromTimeOfDay(TimeOfDay.now()),
+    endTime: TimeOnly(
+      hour: TimeOfDay.now().hour,
+      minute: TimeOfDay.now().minute
+    ),
     status: 'pending',
     createdAt: DateTime.now() 
   );
@@ -114,7 +118,7 @@ class _DailyCreatorState extends State<DailyCreator> {
                 BasicTimeField(
                   onChanged: (value) {
                     setState(() {
-                      _task.startTime = value;
+                      _task.startTime = TimeOnly.fromTimeOfDay(value);
                     });
                   },
                 ),
@@ -124,7 +128,7 @@ class _DailyCreatorState extends State<DailyCreator> {
                 BasicTimeField(
                   onChanged: (value) {
                     setState(() {
-                      _task.endTime = value;
+                      _task.endTime = TimeOnly.fromTimeOfDay(value);
                     });
                   }
                 ),

@@ -13,12 +13,16 @@ class TimeOnly{
     'hour': hour,
     'minute': minute 
   };
-  TimeOnly.fromMap(Map<String, dynamic> step) {
-    hour = step['hour'];
-    minute = step['minute'];
+  TimeOnly.fromMap(Map<String, dynamic> time) {
+    hour = time['hour'];
+    minute = time['minute'];
   }
-  TimeOnly.clone(TimeOnly step) { // Method for deep copy of class
-    hour =  step.hour;
-    minute = step.minute;
+  TimeOnly.fromTimeOfDay(TimeOfDay time) {
+    hour = time.hour;
+    minute = time.minute;
+  }
+  TimeOnly.clone(TimeOnly time) { // Method for deep copy of class
+    hour =  time.hour;
+    minute = time.minute;
   }
 }
