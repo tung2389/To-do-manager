@@ -121,10 +121,7 @@ class _DailyEditorState extends State<DailyEditor> {
 
                 Text('Start time'),
                 BasicTimeField(
-                  initialValue: TimeOfDay(
-                    hour: _task.startTime.hour, 
-                    minute: _task.startTime.minute
-                  ),
+                  initialValue: _task.startTime,
                   onChanged: (value) {
                     setState(() {
                       _task.startTime = value;
@@ -135,10 +132,7 @@ class _DailyEditorState extends State<DailyEditor> {
 
                 Text('End time'),
                 BasicTimeField(
-                  initialValue: TimeOfDay(
-                    hour: _task.endTime.hour, 
-                    minute: _task.endTime.minute
-                  ),
+                  initialValue: _task.endTime,
                   onChanged: (value) {
                     setState(() {
                       _task.endTime = value;

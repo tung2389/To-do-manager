@@ -14,7 +14,7 @@ class BasicTimeField extends StatelessWidget {
       DateTimeField(
         enabled: enabled,
         format: format,
-        //initialValue: DateTimeField.convert(initialValue),
+        initialValue: DateTimeField.convert(initialValue),
         onShowPicker: (context, currentValue) async {
           final time = await showTimePicker(
             context: context,

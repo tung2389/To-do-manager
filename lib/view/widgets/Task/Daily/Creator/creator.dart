@@ -10,7 +10,6 @@ import '../../../../../controller/daily.dart';
 
 import '../../../../../model/step.dart';
 import '../../../../../model/daily.dart';
-import '../../../../../model/time.dart';
 
 class DailyCreator extends StatefulWidget {
   DailyCreator({Key key}) : super(key: key);
@@ -31,11 +30,8 @@ class _DailyCreatorState extends State<DailyCreator> {
     description: '',
     steps: new List<TaskStep>(),
     labels: new List<String>(),
-    startTime: TimeOnly.fromTimeOfDay(TimeOfDay.now()),
-    endTime: TimeOnly(
-      hour: TimeOfDay.now().hour,
-      minute: TimeOfDay.now().minute
-    ),
+    startTime: TimeOfDay.now(),
+    endTime: TimeOfDay.now(),
     status: 'pending',
     createdAt: DateTime.now() 
   );
@@ -118,7 +114,7 @@ class _DailyCreatorState extends State<DailyCreator> {
                 BasicTimeField(
                   onChanged: (value) {
                     setState(() {
-                      _task.startTime = TimeOnly.fromTimeOfDay(value);
+                      _task.startTime = value;
                     });
                   },
                 ),
@@ -128,7 +124,7 @@ class _DailyCreatorState extends State<DailyCreator> {
                 BasicTimeField(
                   onChanged: (value) {
                     setState(() {
-                      _task.endTime = TimeOnly.fromTimeOfDay(value);
+                      _task.endTime = value;
                     });
                   }
                 ),
