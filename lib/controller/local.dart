@@ -5,3 +5,9 @@ Future<String> getUserId() async {
   String uid = prefs.getString('uid');
   return uid;
 }
+
+Future<String> getUserName() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String username = prefs.getString('name');
+  return username;
+}
