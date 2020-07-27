@@ -6,6 +6,7 @@ import './view/routes/register.dart';
 import './view/routes/login.dart';
 import './view/routes/verify.dart';
 import './view/routes/Daily/daily.dart';
+import './view/routes/Todo/todo.dart';
 
 // FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
@@ -39,7 +40,7 @@ class MyApp extends StatelessWidget {
         '/register': (context) => Register(),
         '/login': (context) => Login(),
         '/verify': (context) => Verify(),
-        '/todo': (context) => Home(),
+        '/todo': (context) => Todo(),
         '/daily': (context) => DailyPage()
       },
     );

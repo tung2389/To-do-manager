@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
 import '../../widgets/Drawer/drawer.dart';
-import '../../widgets/Task/Daily/Creator/creator.dart';
-import './tabs/pending.dart';
-import './tabs/completed.dart';
-import './tabs/overdue.dart';
+import '../../widgets/Task/Todo/Creator/creator.dart';
+import 'tabs/pending.dart';
+import 'tabs/completed.dart';
 
-class DailyPage extends StatelessWidget {
+class Todo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 3,
+      length: 2,
       child: Scaffold(
         appBar: AppBar(
-          title: Text('List of daily tasks'),
+          title: Text('List of to-do tasks'),
           bottom: TabBar(
             tabs: [
               Tab(
@@ -24,11 +23,6 @@ class DailyPage extends StatelessWidget {
                 text: 'Completed',
                 icon: Icon(Icons.check)
               ),
-              Tab(
-                text: 'Overdue',
-                // Event busy, block, Error, or alarm_off
-                icon: Icon(Icons.alarm_off)
-              ),
             ],
           ),
         ),
@@ -36,8 +30,7 @@ class DailyPage extends StatelessWidget {
         body: TabBarView(
           children: [
             PendingTab(),
-            CompletedTab(),
-            OverdueTab()
+            CompletedTab()
           ]
         ),
         floatingActionButton: FloatingActionButton(
@@ -45,7 +38,7 @@ class DailyPage extends StatelessWidget {
             context: context,
             barrierDismissible: true,
             builder: (BuildContext context) {
-              return DailyCreator();
+              return TodoCreator();
             }
           ),
           child: const Icon(Icons.add)

@@ -22,6 +22,12 @@ class NavDrawer extends StatelessWidget {
             ),
           ),
           ListTile(
+            title: Text('Home'),
+            onTap: () {
+              Navigator.pushReplacementNamed(context, '/');
+            },
+          ),
+          ListTile(
             title: Text('To do'),
             onTap: () {
               Navigator.pushReplacementNamed(context, '/todo');
