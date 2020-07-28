@@ -29,6 +29,7 @@ class Home extends StatelessWidget {
           padding: EdgeInsets.all(10.0),
           child: Center(
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 FutureBuilder<String>(
                   future: getUserName(),
@@ -53,10 +54,13 @@ class Home extends StatelessWidget {
                 SizedBox(height: 20),
                 Card(
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5)
+                    borderRadius: BorderRadius.circular(20),
                   ),
                   // Add InkWell effect
                   child: Material(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
                     child: InkWell(
                       onTap: () {
                         Navigator.pushReplacementNamed(context, '/daily');
@@ -64,14 +68,22 @@ class Home extends StatelessWidget {
                       child: SizedBox(
                         child: Padding(
                           padding: const EdgeInsets.all(10.0),
-                          child: Text(
-                            'Check your daily tasks',
-                            style: TextStyle(
-                              fontSize: 30
-                            ),
+                          child: Column(
+                            children: <Widget>[
+                              Text(
+                                'Check your daily tasks',
+                                style: TextStyle(
+                                  fontSize: 30
+                                ),
+                              ),
+                              Icon(
+                                Icons.work,
+                                color: Colors.green,
+                              )
+                            ],
                           ),
                         ),
-                        width: MediaQuery.of(context).size.width / 2,
+                        width: MediaQuery.of(context).size.width / 1.6,
                       ),
                     ),
                   ),
@@ -82,7 +94,11 @@ class Home extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(5)
                   ),
-                  elevation: 10
+                  elevation: 10,
+                  child: Icon(
+                    Icons.calendar_today,
+                    color: Colors.blue,
+                  ),
                 )
               ],
             ),
