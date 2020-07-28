@@ -50,12 +50,31 @@ class Home extends StatelessWidget {
                     }
                   }
                 ),
-                SizedBox(height: 10),
+                SizedBox(height: 20),
                 Card(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(5)
                   ),
-                  child: Text('test'),
+                  // Add InkWell effect
+                  child: Material(
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.pushReplacementNamed(context, '/daily');
+                      },
+                      child: SizedBox(
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Text(
+                            'Check your daily tasks',
+                            style: TextStyle(
+                              fontSize: 30
+                            ),
+                          ),
+                        ),
+                        width: MediaQuery.of(context).size.width / 2,
+                      ),
+                    ),
+                  ),
                   elevation: 10
                 ),
                 SizedBox(height: 10),
