@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import '../../widgets/Drawer/drawer.dart';
 import '../../widgets/NavigationCard/navCard.dart';
+import '../../widgets/yesterdayDailies/yesterdayDailies.dart';
 import '../../../controller/local.dart';
+import '../../../controller/user.dart';
+import '../../../controller/daily.dart';
 
 class Home extends StatelessWidget {
+  final DailyService _dailyService = new DailyService();
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -59,6 +63,38 @@ class Home extends StatelessWidget {
                     size: 30.0,
                   )
                 ),
+                FutureBuilder<String>(
+                  future: getUserId(),
+                  builder: (context, AsyncSnapshot<String> userId) {
+                    if(userId.hasData) {
+                      UserService userService = UserService(
+                        uid: userId.data 
+                      );
+                      int today = DateTime.now().day;
+                      userService
+                      .checkNewDay(today)
+                      .then((isNewDay) {
+                        if(isNewDay) {
+                          _dailyService
+                            .getOverdueTasks()
+                            .then((documentsSnapshot) {
+                              showDialog(
+                                context: context,
+                                barrierDismissible: false,
+                                builder: (BuildContext context) {
+                                  return YesterdayDailies(
+                                    overdueTasks: documentsSnapshot,
+                                  );
+                                }                             
+                              );
+                            });
+                          userService.updatelastAccessDay(today);
+                        }
+                      });
+                    }
+                    return Text('');
+                  },
+                )
               ],
             ),
           ),

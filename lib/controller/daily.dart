@@ -83,4 +83,11 @@ class DailyService {
         return snapshots.documents;
       });
   }
+
+  Future<void> resetYesterdayTasks() async {
+    String uid = await getUserId();
+   _db.collection('user')
+    .document(uid)
+    .collection('daily');
+  }
 }
