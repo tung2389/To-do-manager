@@ -75,6 +75,7 @@ class Home extends StatelessWidget {
                       .checkNewDay(today)
                       .then((isNewDay) {
                         if(isNewDay) {
+                          userService.updatelastAccessDay(today);
                           _dailyService
                             .getOverdueTasks()
                             .then((documentsSnapshot) {
@@ -88,7 +89,6 @@ class Home extends StatelessWidget {
                                 }                             
                               );
                             });
-                          userService.updatelastAccessDay(today);
                         }
                       });
                     }
