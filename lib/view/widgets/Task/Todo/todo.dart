@@ -82,6 +82,41 @@ class _TodoTaskViewState extends State<TodoTaskView> {
             Text(
               '${widget.task.title}'
             ),  
+            Spacer(), // Fill the remaining space to put the button at the end of row
+            DropdownButtonHideUnderline(
+                child: DropdownButton<String>(
+                items: ['Edit', 'Delete']
+                  .map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(), 
+                onChanged: (String newValue) {
+                  if(newValue == 'Edit') {
+                    showDialog(
+                      context: context,
+                      barrierDismissible: true,
+                      builder: (BuildContext context) {
+                        return TodoEditor(
+                          task: widget.task,
+                        );
+                      }
+                    );
+                  }
+                  else if(newValue == 'Delete') {
+                    showDialog(
+                      context: context,
+                      barrierDismissible: true,
+                      builder: (BuildContext context) {
+                        
+                      }
+                    );
+                  }
+                },
+                icon: Icon(Icons.more_vert),
+              ),
+            )
           ],
         )
       )

@@ -88,6 +88,6 @@ class DailyService {
     String uid = await getUserId();
    _db.collection('user')
     .document(uid)
-    .collection('daily');
+    .collection('daily').getDocuments();
   }
 }
