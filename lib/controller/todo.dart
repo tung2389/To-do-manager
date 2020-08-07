@@ -71,7 +71,12 @@ class TodoService {
       return null;
     }
   }
-  Future<void> delete(TodoTask task) {
-    
+  Future<void> delete(String taskId) async{
+    String uid = await getUserId();
+    return _db.collection('user')
+              .document(uid)
+              .collection('todo')
+              .document(taskId)
+              .delete();
   }
 }
