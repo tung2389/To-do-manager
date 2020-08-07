@@ -6,6 +6,7 @@ import '../../snackBar/error.dart';
 import '../../snackBar/success.dart';
 import '../../../../controller/todo.dart';
 import '../../../../model/todo.dart';
+import '../dropdownTaskOptions.dart';
 
 class TodoTaskView extends StatefulWidget {
   final TodoTask task;
@@ -83,38 +84,17 @@ class _TodoTaskViewState extends State<TodoTaskView> {
               '${widget.task.title}'
             ),  
             Spacer(), // Fill the remaining space to put the button at the end of row
-            DropdownButtonHideUnderline(
-                child: DropdownButton<String>(
-                items: ['Edit', 'Delete']
-                  .map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(), 
-                onChanged: (String newValue) {
-                  if(newValue == 'Edit') {
-                    showDialog(
-                      context: context,
-                      barrierDismissible: true,
-                      builder: (BuildContext context) {
-                        return TodoEditor(
-                          task: widget.task,
-                        );
-                      }
-                    );
-                  }
-                  else if(newValue == 'Delete') {
-                    showDialog(
-                      context: context,
-                      barrierDismissible: true,
-                      builder: (BuildContext context) {
-                        
-                      }
-                    );
-                  }
-                },
-                icon: Icon(Icons.more_vert),
+            DropdownTaskOptions(
+              items: (
+                widget.mode == 'edit' 
+                ? ['Edit', 'Delete']
+                : ['View', 'Delete']
+              ),
+              editor: TodoEditor(
+                task: widget.task,
+              ),
+              viewOnly: TodoViewOnly(
+                task: widget.task
               ),
             )
           ],

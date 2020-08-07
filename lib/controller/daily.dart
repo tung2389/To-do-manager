@@ -72,6 +72,15 @@ class DailyService {
     }
   }
 
+  Future<void> delete(String taskId) async{
+    String uid = await getUserId();
+    return _db.collection('user')
+              .document(uid)
+              .collection('daily')
+              .document(taskId)
+              .delete();
+  }
+
   // A function return a Future<List<DocumentSnapshot>>, which is _db.collection('user')...getDocuments.then(...)
   Future<List<DocumentSnapshot>> getOverdueTasks() async {
     String uid = await getUserId();
