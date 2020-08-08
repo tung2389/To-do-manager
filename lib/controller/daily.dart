@@ -95,8 +95,20 @@ class DailyService {
 
   Future<void> resetYesterdayTasks() async {
     String uid = await getUserId();
-   _db.collection('user')
-    .document(uid)
-    .collection('daily').getDocuments();
+    return _db.collection('user')
+      .document(uid)
+      .collection('daily')
+      .getDocuments()
+      .then((QuerySnapshot data) {
+        List<Future> updatingFutures = <Future>[];
+        for (DocumentSnapshot document in data.documents) {
+          updatingFutures.add(
+            document.reference.updateData({
+              'status': 'pending'
+            })
+          );
+        }
+        return Future.wait(updatingFutures);
+      });
   }
 }
