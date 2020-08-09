@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import './confirmDelete.dart';
 
 class DropdownTaskOptions extends StatelessWidget {
   final List<String> items;
   final StatefulWidget editor;
   final StatelessWidget viewOnly;
-  DropdownTaskOptions({this.items, this.editor, this.viewOnly});
+  final void Function(String taskId) deleteTask;
+  DropdownTaskOptions({this.items, this.editor, this.viewOnly, this.deleteTask});
   
   @override
   Widget build(BuildContext context) {
@@ -41,7 +43,9 @@ class DropdownTaskOptions extends StatelessWidget {
               context: context,
               barrierDismissible: true,
               builder: (BuildContext context) {
-                
+                return ConfirmDelete(
+                  deleteTask: deleteTask
+                );
               }
             );
           }

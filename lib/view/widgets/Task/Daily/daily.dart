@@ -6,6 +6,7 @@ import '../../snackBar/error.dart';
 import '../../snackBar/success.dart';
 import '../../../../controller/daily.dart';
 import '../../../../model/daily.dart';
+import '../dropdownTaskOptions.dart';
 
 class DailyTaskView extends StatefulWidget {
   final DailyTask task;
@@ -82,6 +83,21 @@ class _DailyTaskViewState extends State<DailyTaskView> {
             Text(
               '${widget.task.title}'
             ),  
+            Spacer(), // Fill the remaining space to put the button at the end of row
+            DropdownTaskOptions(
+              items: (
+                widget.mode == 'edit' 
+                ? ['Edit', 'Delete']
+                : ['View', 'Delete']
+              ),
+              editor: DailyEditor(
+                task: widget.task,
+              ),
+              viewOnly: DailyViewOnly(
+                task: widget.task
+              ),
+              deleteTask: _dailyService.delete
+            )
           ],
         )
       )
