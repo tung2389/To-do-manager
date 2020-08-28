@@ -102,11 +102,13 @@ class DailyService {
       .then((QuerySnapshot data) {
         List<Future> updatingFutures = <Future>[];
         for (DocumentSnapshot document in data.documents) {
-          updatingFutures.add(
-            document.reference.updateData({
-              'status': 'pending'
-            })
-          );
+          if(document.data['status'] == 'completed') {
+            updatingFutures.add(
+              document.reference.updateData({
+                'status': 'pending'
+              })
+            );
+          }
         }
         return Future.wait(updatingFutures);
       });

@@ -85,6 +85,7 @@ class Home extends StatelessWidget {
                                 builder: (BuildContext context) {
                                   return YesterdayDailies(
                                     overdueTasks: documentsSnapshot,
+                                    resetDailies: () => _dailyService.resetYesterdayTasks()
                                   );
                                 }                             
                               );

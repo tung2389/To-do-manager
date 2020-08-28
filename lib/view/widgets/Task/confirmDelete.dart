@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../loadingIndicator/loadingIndicator.dart';
 
 class ConfirmDelete extends StatefulWidget {
-  final void Function(String taskId) deleteTask;
+  final Future<void> Function() deleteTask;
   ConfirmDelete({this.deleteTask});
   @override
   _ConfirmDeleteState createState() => _ConfirmDeleteState();
@@ -49,7 +49,12 @@ class _ConfirmDeleteState extends State<ConfirmDelete> {
                 setState(() {
                   _loading = true;
                 });
-                
+                widget.deleteTask().whenComplete(() {
+                  setState(() {
+                    _loading = false;
+                  });
+                  Navigator.pop(context);
+                });
               },
             ),
           ],

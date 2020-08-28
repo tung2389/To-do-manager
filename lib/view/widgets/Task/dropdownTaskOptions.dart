@@ -5,7 +5,7 @@ class DropdownTaskOptions extends StatelessWidget {
   final List<String> items;
   final StatefulWidget editor;
   final StatelessWidget viewOnly;
-  final void Function(String taskId) deleteTask;
+  final Future<void> Function() deleteTask;
   DropdownTaskOptions({this.items, this.editor, this.viewOnly, this.deleteTask});
   
   @override
