@@ -75,7 +75,6 @@ class Home extends StatelessWidget {
                       .checkNewDay(today)
                       .then((isNewDay) {
                         if(isNewDay) {
-                          userService.updatelastAccessDay(today);
                           _dailyService
                             .getOverdueTasks()
                             .then((documentsSnapshot) {
@@ -85,7 +84,8 @@ class Home extends StatelessWidget {
                                 builder: (BuildContext context) {
                                   return YesterdayDailies(
                                     overdueTasks: documentsSnapshot,
-                                    resetDailies: () => _dailyService.resetYesterdayTasks()
+                                    handleYesterdayDailies: () => _dailyService.handleYesterdayTasks(),
+                                    updateLastAccessDay: () => userService.updatelastAccessDay(today)
                                   );
                                 }                             
                               );

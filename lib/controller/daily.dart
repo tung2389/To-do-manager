@@ -93,7 +93,7 @@ class DailyService {
       });
   }
 
-  Future<void> resetYesterdayTasks() async {
+  Future<void> handleYesterdayTasks() async {
     String uid = await getUserId();
     return _db.collection('user')
       .document(uid)
@@ -103,11 +103,19 @@ class DailyService {
         List<Future> updatingFutures = <Future>[];
         for (DocumentSnapshot document in data.documents) {
           if(document.data['status'] == 'completed') {
+            // Reset task's status to pending
             updatingFutures.add(
               document.reference.updateData({
                 'status': 'pending'
               })
             );
+          }
+          else {
+            // Add yesterday uncompleted tasks to yesterdayOverdue collection
+            _db.collection('user')
+              .document(uid)
+              .collection('yesterdayOverdue')
+              .add(document.data);
           }
         }
         return Future.wait(updatingFutures);

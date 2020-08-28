@@ -5,8 +5,9 @@ import '../loadingIndicator/loadingIndicator.dart';
 
 class YesterdayDailies extends StatefulWidget {
   final List overdueTasks;
-  final Future<void> Function() resetDailies;
-  YesterdayDailies({this.overdueTasks, this.resetDailies});
+  final Future<void> Function() handleYesterdayDailies;
+  final Future<void> Function() updateLastAccessDay;
+  YesterdayDailies({this.overdueTasks, this.handleYesterdayDailies ,this.updateLastAccessDay});
 
   @override
   _YesterdayDailiesState createState() => _YesterdayDailiesState();
@@ -54,9 +55,12 @@ class _YesterdayDailiesState extends State<YesterdayDailies> {
             setState(() {
               _loading = true;
             });
-            widget.resetDailies().whenComplete(() {
-              Navigator.pop(context);
-            });
+            Future.wait([
+              widget.updateLastAccessDay(),
+              widget.handleYesterdayDailies()
+            ]).whenComplete(() {
+                Navigator.pop(context);
+              });
           } // Close the dialog
         )
       ],
