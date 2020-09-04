@@ -50,7 +50,7 @@ class _TodoTaskViewState extends State<TodoTaskView> {
             Checkbox(
               value: widget.task.status== 'completed' ? true : false, 
               onChanged: 
-                widget.task.status == 'completed' 
+                widget.mode == 'view' 
                 ? null :
                 (bool value) async {
                 setState(() {

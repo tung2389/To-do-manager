@@ -93,6 +93,15 @@ class DailyService {
       });
   }
 
+  Future<void> deleteOverdue(String taskId) async{
+    String uid = await LocalData.getUserId();
+    return _db.collection('user')
+              .document(uid)
+              .collection('yesterdayOverdue')
+              .document(taskId)
+              .delete();
+  }
+
   Future<void> handleYesterdayTasks() async {
     String uid = await LocalData.getUserId();
     return _db.collection('user')
@@ -120,5 +129,9 @@ class DailyService {
         }
         return Future.wait(updatingFutures);
       });
+  }
+
+  static List<String> calculateTaskNeedToAddToOverdue() {
+
   }
 }

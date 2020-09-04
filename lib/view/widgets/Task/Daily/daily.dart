@@ -50,7 +50,7 @@ class _DailyTaskViewState extends State<DailyTaskView> {
             Checkbox(
               value: widget.task.status== 'completed' ? true : false, 
               onChanged: 
-                widget.task.status == 'completed' 
+                widget.mode == 'view' || widget.mode == 'viewOverdue'
                 ? null :
                 (bool value) async {
                 setState(() {
@@ -96,7 +96,14 @@ class _DailyTaskViewState extends State<DailyTaskView> {
               viewOnly: DailyViewOnly(
                 task: widget.task
               ),
-              deleteTask: () => _dailyService.delete(widget.task.id)
+              deleteTask: () {
+                if(widget.mode == 'view') {
+                  return _dailyService.delete(widget.task.id);
+                }
+                else{
+                  return _dailyService.deleteOverdue(widget.task.id);
+                }
+              }
             )
           ],
         )
