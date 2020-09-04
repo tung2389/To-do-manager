@@ -10,7 +10,7 @@ class DailyService {
     newTask['createdAt'] = DateTime.now();
     // We will take the id from firebase which is automatically generated
     newTask.remove('id');
-    String uid = await getUserId();
+    String uid = await LocalData.getUserId();
     try {
       final DocumentReference taskRef = await _db.collection('user')
                                                 .document(uid)
@@ -24,7 +24,7 @@ class DailyService {
   }
 
   Future<void> update(String taskId, DailyTask task) async {
-    String uid = await getUserId();
+    String uid = await LocalData.getUserId();
     Map<String, dynamic> newTask = task.toMap();
     try{
       await _db.collection('user') 
@@ -40,7 +40,7 @@ class DailyService {
   }
 
   Future<void> updateSteps(String taskId, List<String>stepList) async {
-    String uid = await getUserId();
+    String uid = await LocalData.getUserId();
     try{
       await _db.collection('user') 
         .document(uid)
@@ -57,7 +57,7 @@ class DailyService {
   }
 
   Future<bool> markAsCompleted(String taskId) async {
-    String uid = await getUserId();
+    String uid = await LocalData.getUserId();
     try{
       await _db.collection('user')
               .document(uid)
@@ -73,7 +73,7 @@ class DailyService {
   }
 
   Future<void> delete(String taskId) async{
-    String uid = await getUserId();
+    String uid = await LocalData.getUserId();
     return _db.collection('user')
               .document(uid)
               .collection('daily')
@@ -83,7 +83,7 @@ class DailyService {
 
   // A function return a Future<List<DocumentSnapshot>>, which is _db.collection('user')...getDocuments.then(...)
   Future<List<DocumentSnapshot>> getOverdueTasks() async {
-    String uid = await getUserId();
+    String uid = await LocalData.getUserId();
     return _db.collection('user')
       .document(uid)
       .collection('daily')
@@ -94,7 +94,7 @@ class DailyService {
   }
 
   Future<void> handleYesterdayTasks() async {
-    String uid = await getUserId();
+    String uid = await LocalData.getUserId();
     return _db.collection('user')
       .document(uid)
       .collection('daily')

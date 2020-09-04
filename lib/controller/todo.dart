@@ -10,7 +10,7 @@ class TodoService {
     newTask['createdAt'] = DateTime.now();
     // We will take the id from firebase which is automatically generated
     newTask.remove('id');
-    String uid = await getUserId();
+    String uid = await LocalData.getUserId();
     try {
       final DocumentReference taskRef = await _db.collection('user')
                                                 .document(uid)
@@ -24,7 +24,7 @@ class TodoService {
   }
 
   Future update(String taskId, TodoTask task) async {
-    String uid = await getUserId();
+    String uid = await LocalData.getUserId();
     Map<String, dynamic> newTask = task.toMap();
     try{
       await _db.collection('user') 
@@ -40,7 +40,7 @@ class TodoService {
   }
 
   Future updateSteps(String taskId, List<String>stepList) async {
-    String uid = await getUserId();
+    String uid = await LocalData.getUserId();
     try{
       await _db.collection('user') 
         .document(uid)
@@ -57,7 +57,7 @@ class TodoService {
   }
 
   Future markAsCompleted(String taskId) async {
-    String uid = await getUserId();
+    String uid = await LocalData.getUserId();
     try{
       await _db.collection('user')
               .document(uid)
@@ -72,7 +72,7 @@ class TodoService {
     }
   }
   Future<void> delete(String taskId) async{
-    String uid = await getUserId();
+    String uid = await LocalData.getUserId();
     return _db.collection('user')
               .document(uid)
               .collection('todo')

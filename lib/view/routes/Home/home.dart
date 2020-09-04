@@ -24,7 +24,7 @@ class Home extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 FutureBuilder<String>(
-                  future: getUserName(),
+                  future: LocalData.getUserName(),
                   builder: (context, AsyncSnapshot<String> username){
                     if(username.hasData) {
                       return Text(
@@ -64,7 +64,7 @@ class Home extends StatelessWidget {
                   )
                 ),
                 FutureBuilder<String>(
-                  future: getUserId(),
+                  future: LocalData.getUserId(),
                   builder: (context, AsyncSnapshot<String> userId) {
                     if(userId.hasData) {
                       UserService userService = UserService(
@@ -78,17 +78,19 @@ class Home extends StatelessWidget {
                           _dailyService
                             .getOverdueTasks()
                             .then((documentsSnapshot) {
-                              showDialog(
-                                context: context,
-                                barrierDismissible: false,
-                                builder: (BuildContext context) {
-                                  return YesterdayDailies(
-                                    overdueTasks: documentsSnapshot,
-                                    handleYesterdayDailies: () => _dailyService.handleYesterdayTasks(),
-                                    updateLastAccessDay: () => userService.updatelastAccessDay(today)
-                                  );
-                                }                             
-                              );
+                              if(documentsSnapshot.length > 0) {
+                                showDialog(
+                                  context: context,
+                                  barrierDismissible: false,
+                                  builder: (BuildContext context) {
+                                    return YesterdayDailies(
+                                      overdueTasks: documentsSnapshot,
+                                      handleYesterdayDailies: () => _dailyService.handleYesterdayTasks(),
+                                      updateLastAccessDay: () => userService.updatelastAccessDay(today)
+                                    );
+                                  }                             
+                                );
+                              }
                             });
                         }
                       });

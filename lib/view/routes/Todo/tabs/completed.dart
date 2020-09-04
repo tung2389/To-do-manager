@@ -1,21 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../../../widgets/Task/Todo/todo.dart';
 import '../../../../model/todo.dart';
+import '../../../../controller/local.dart';
 
 class CompletedTab extends StatelessWidget {
-  Future<String> _getUID() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String uid = prefs.getString('uid');
-    return uid;
-  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
       child: FutureBuilder<String>(
-        future:  _getUID(),
+        future:  LocalData.getUserId(),
         builder: (context, AsyncSnapshot<String> uid) {
           if(uid.hasData) {
             return StreamBuilder(
