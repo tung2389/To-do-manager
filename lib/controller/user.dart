@@ -1,19 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import './local.dart';
 
 class UserService {
-  final String uid;
-  UserService({this.uid});
+  static final CollectionReference userCollection = Firestore.instance.collection('user');
 
-  final CollectionReference userCollection = Firestore.instance.collection('user');
-
-  Future createUser(String name) {
+  static Future createUser(String name) async {
+    String uid = await LocalData.getUserId();
     return userCollection.document(uid).setData({
       'name': name,
       'lastAccessDay': DateTime.now().day
     });
   }
 
-  Future<bool> checkNewDay(today) {
+  static Future<bool> checkNewDay(today) async {
+    String uid = await LocalData.getUserId();
     return userCollection.document(uid).get().then((user) {
       if(user.data['lastAccessDay'] != today) {
         return true;
@@ -24,7 +24,8 @@ class UserService {
     });
   }
 
-  Future<void> updatelastAccessDay(newDay) {
+  static Future<void> updatelastAccessDay(newDay) async {
+    String uid = await LocalData.getUserId();
     return userCollection.document(uid).setData({
       'lastAccessDay': newDay
     });

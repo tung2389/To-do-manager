@@ -21,7 +21,6 @@ class TodoTaskView extends StatefulWidget {
 
 class _TodoTaskViewState extends State<TodoTaskView> {
   bool _loading = false;
-  final TodoService _todoService = new TodoService();
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +55,7 @@ class _TodoTaskViewState extends State<TodoTaskView> {
                 setState(() {
                   _loading = true;
                 });
-                dynamic result = await _todoService.markAsCompleted(widget.task.id);
+                dynamic result = await TodoService.markAsCompleted(widget.task.id);
                                             //  .whenComplete(() {
                                             //     setState(() {
                                             //       checked = value;

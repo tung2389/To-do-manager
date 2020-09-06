@@ -3,9 +3,9 @@ import './local.dart';
 import '../model/todo.dart';
 
 class TodoService {
-  final _db = Firestore.instance;
+  static final _db = Firestore.instance;
 
-  Future create(TodoTask task) async {
+  static Future create(TodoTask task) async {
     Map<String, dynamic> newTask = task.toMap();
     newTask['createdAt'] = DateTime.now();
     // We will take the id from firebase which is automatically generated
@@ -23,7 +23,7 @@ class TodoService {
     }
   }
 
-  Future update(String taskId, TodoTask task) async {
+  static Future update(String taskId, TodoTask task) async {
     String uid = await LocalData.getUserId();
     Map<String, dynamic> newTask = task.toMap();
     try{
@@ -39,7 +39,7 @@ class TodoService {
     }
   }
 
-  Future updateSteps(String taskId, List<String>stepList) async {
+  static Future updateSteps(String taskId, List<String>stepList) async {
     String uid = await LocalData.getUserId();
     try{
       await _db.collection('user') 
@@ -56,7 +56,7 @@ class TodoService {
     }
   }
 
-  Future markAsCompleted(String taskId) async {
+  static Future markAsCompleted(String taskId) async {
     String uid = await LocalData.getUserId();
     try{
       await _db.collection('user')
@@ -71,7 +71,8 @@ class TodoService {
       return null;
     }
   }
-  Future<void> delete(String taskId) async{
+  
+  static Future<void> delete(String taskId) async{
     String uid = await LocalData.getUserId();
     return _db.collection('user')
               .document(uid)

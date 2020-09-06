@@ -21,7 +21,6 @@ class DailyTaskView extends StatefulWidget {
 
 class _DailyTaskViewState extends State<DailyTaskView> {
   bool _loading = false;
-  final DailyService _dailyService = new DailyService();
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +55,7 @@ class _DailyTaskViewState extends State<DailyTaskView> {
                 setState(() {
                   _loading = true;
                 });
-                dynamic result = await _dailyService.markAsCompleted(widget.task.id);
+                dynamic result = await DailyService.markAsCompleted(widget.task.id);
                                             //  .whenComplete(() {
                                             //     setState(() {
                                             //       checked = value;
@@ -98,10 +97,10 @@ class _DailyTaskViewState extends State<DailyTaskView> {
               ),
               deleteTask: () {
                 if(widget.mode == 'view') {
-                  return _dailyService.delete(widget.task.id);
+                  return DailyService.delete(widget.task.id);
                 }
                 else{
-                  return _dailyService.deleteOverdue(widget.task.id);
+                  return DailyService.deleteOverdue(widget.task.id);
                 }
               }
             )

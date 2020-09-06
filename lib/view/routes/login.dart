@@ -11,7 +11,6 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  final AuthService _auth = AuthService();
   final _formKey = GlobalKey<FormState>(); // Unique Form Key
 
   bool loading = false;
@@ -69,7 +68,7 @@ class _LoginState extends State<Login> {
                       onPressed: () async {
                         if(_formKey.currentState.validate()){
                           setState(() => loading = true);
-                          Map user = await _auth.loginWithEmailAndPass(
+                          Map user = await AuthService.loginWithEmailAndPass(
                             email, 
                             password
                           ).whenComplete(() {

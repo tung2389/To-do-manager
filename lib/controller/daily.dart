@@ -3,9 +3,9 @@ import './local.dart';
 import '../model/daily.dart';
 
 class DailyService {
-  final _db = Firestore.instance;
+  static final _db = Firestore.instance;
 
-  Future create(DailyTask task) async {
+  static Future create(DailyTask task) async {
     Map<String, dynamic> newTask = task.toMap();
     newTask['createdAt'] = DateTime.now();
     // We will take the id from firebase which is automatically generated
@@ -23,7 +23,7 @@ class DailyService {
     }
   }
 
-  Future<void> update(String taskId, DailyTask task) async {
+  static Future<void> update(String taskId, DailyTask task) async {
     String uid = await LocalData.getUserId();
     Map<String, dynamic> newTask = task.toMap();
     try{
@@ -39,7 +39,7 @@ class DailyService {
     }
   }
 
-  Future<void> updateSteps(String taskId, List<String>stepList) async {
+  static Future<void> updateSteps(String taskId, List<String>stepList) async {
     String uid = await LocalData.getUserId();
     try{
       await _db.collection('user') 
@@ -56,7 +56,7 @@ class DailyService {
     }
   }
 
-  Future<bool> markAsCompleted(String taskId) async {
+  static Future<bool> markAsCompleted(String taskId) async {
     String uid = await LocalData.getUserId();
     try{
       await _db.collection('user')
@@ -72,7 +72,7 @@ class DailyService {
     }
   }
 
-  Future<void> delete(String taskId) async{
+  static Future<void> delete(String taskId) async{
     String uid = await LocalData.getUserId();
     return _db.collection('user')
               .document(uid)
@@ -82,7 +82,7 @@ class DailyService {
   }
 
   // A function return a Future<List<DocumentSnapshot>>, which is _db.collection('user')...getDocuments.then(...)
-  Future<List<DocumentSnapshot>> getOverdueTasks() async {
+  static Future<List<DocumentSnapshot>> getOverdueTasks() async {
     String uid = await LocalData.getUserId();
     return _db.collection('user')
       .document(uid)
@@ -93,7 +93,17 @@ class DailyService {
       });
   }
 
-  Future<void> deleteOverdue(String taskId) async{
+  // Future<List<DocumentSnapshot>> getAllDailyTasks() async {
+  //   String uid = await LocalData.getUserId();
+  //   return _db.collection('user')
+  //     .document(uid)
+  //     .collection('daily')
+  //     .getDocuments().then((snapshots) {
+  //       return snapshots.documents;
+  //     });
+  // }
+
+  static Future<void> deleteOverdue(String taskId) async{
     String uid = await LocalData.getUserId();
     return _db.collection('user')
               .document(uid)
@@ -102,7 +112,7 @@ class DailyService {
               .delete();
   }
 
-  Future<void> handleYesterdayTasks() async {
+  static Future<void> handleYesterdayTasks() async {
     String uid = await LocalData.getUserId();
     return _db.collection('user')
       .document(uid)

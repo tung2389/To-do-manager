@@ -7,7 +7,6 @@ import '../../../controller/user.dart';
 import '../../../controller/daily.dart';
 
 class Home extends StatelessWidget {
-  final DailyService _dailyService = new DailyService();
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -67,15 +66,12 @@ class Home extends StatelessWidget {
                   future: LocalData.getUserId(),
                   builder: (context, AsyncSnapshot<String> userId) {
                     if(userId.hasData) {
-                      UserService userService = UserService(
-                        uid: userId.data 
-                      );
                       int today = DateTime.now().day;
-                      userService
+                      UserService
                       .checkNewDay(today)
                       .then((isNewDay) {
                         if(isNewDay) {
-                          _dailyService
+                          DailyService
                             .getOverdueTasks()
                             .then((documentsSnapshot) {
                               if(documentsSnapshot.length > 0) {
@@ -85,8 +81,8 @@ class Home extends StatelessWidget {
                                   builder: (BuildContext context) {
                                     return YesterdayDailies(
                                       overdueTasks: documentsSnapshot,
-                                      handleYesterdayDailies: () => _dailyService.handleYesterdayTasks(),
-                                      updateLastAccessDay: () => userService.updatelastAccessDay(today)
+                                      handleYesterdayDailies: () => DailyService.handleYesterdayTasks(),
+                                      updateLastAccessDay: () => UserService.updatelastAccessDay(today)
                                     );
                                   }                             
                                 );

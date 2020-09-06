@@ -19,7 +19,6 @@ class DailyCreator extends StatefulWidget {
 }
 
 class _DailyCreatorState extends State<DailyCreator> {
-  final DailyService _dailyService = new DailyService();
   bool _loading = false;
   //final ScrollController _scrollBarController = ScrollController();
 
@@ -232,7 +231,7 @@ class _DailyCreatorState extends State<DailyCreator> {
                   setState(() {
                     _loading = true;
                   });
-                  _dailyService.create(_task).whenComplete(() {
+                  DailyService.create(_task).whenComplete(() {
                     setState(() {
                       _loading = false;
                     });

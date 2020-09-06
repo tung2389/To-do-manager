@@ -35,7 +35,6 @@ class _TodoEditorState extends State<TodoEditor> {
   //final _scrollBarController = ScrollController();
   final _stepController = TextEditingController();
   final _labelController = TextEditingController();
-  final TodoService _todoService = new TodoService();
 
   TaskStep tempStep = TaskStep(
     title: '',
@@ -246,7 +245,7 @@ class _TodoEditorState extends State<TodoEditor> {
                   setState(() {
                     _loading = true;
                   });
-                  _todoService.update(_task.id, _task).whenComplete(() {
+                  TodoService.update(_task.id, _task).whenComplete(() {
                     setState(() {
                       _loading = false;
                     });    

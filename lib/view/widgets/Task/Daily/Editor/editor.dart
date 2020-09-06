@@ -32,7 +32,6 @@ class _DailyEditorState extends State<DailyEditor> {
   //final _scrollBarController = ScrollController();
   final _stepController = TextEditingController();
   final _labelController = TextEditingController();
-  final DailyService _dailyService = new DailyService();
 
   TaskStep tempStep = TaskStep(
     title: '',
@@ -243,7 +242,7 @@ class _DailyEditorState extends State<DailyEditor> {
                   setState(() {
                     _loading = true;
                   });
-                  _dailyService.update(_task.id, _task).whenComplete(() {
+                  DailyService.update(_task.id, _task).whenComplete(() {
                     setState(() {
                       _loading = false;
                     });    
