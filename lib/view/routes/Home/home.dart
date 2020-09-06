@@ -7,6 +7,7 @@ import '../../../controller/user.dart';
 import '../../../controller/daily.dart';
 
 class Home extends StatelessWidget {
+  final int today = DateTime.now().day;
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -62,34 +63,29 @@ class Home extends StatelessWidget {
                     size: 30.0,
                   )
                 ),
-                FutureBuilder<String>(
-                  future: LocalData.getUserId(),
-                  builder: (context, AsyncSnapshot<String> userId) {
-                    if(userId.hasData) {
-                      int today = DateTime.now().day;
-                      UserService
-                      .checkNewDay(today)
-                      .then((isNewDay) {
-                        if(isNewDay) {
-                          DailyService
-                            .getOverdueTasks()
-                            .then((documentsSnapshot) {
-                              if(documentsSnapshot.length > 0) {
-                                showDialog(
-                                  context: context,
-                                  barrierDismissible: false,
-                                  builder: (BuildContext context) {
-                                    return YesterdayDailies(
-                                      overdueTasks: documentsSnapshot,
-                                      handleYesterdayDailies: () => DailyService.handleYesterdayTasks(),
-                                      updateLastAccessDay: () => UserService.updatelastAccessDay(today)
-                                    );
-                                  }                             
-                                );
-                              }
-                            });
-                        }
-                      });
+                FutureBuilder<bool>(
+                  future: UserService.checkNewDay(today),
+                  builder: (context, AsyncSnapshot<bool> isNewDay) {
+                    if(isNewDay.hasData) {
+                      if(isNewDay.data) {
+                        DailyService
+                          .getOverdueTasks()
+                          .then((documentsSnapshot) {
+                            if(documentsSnapshot.length > 0) {
+                              showDialog(
+                                context: context,
+                                barrierDismissible: false,
+                                builder: (BuildContext context) {
+                                  return YesterdayDailies(
+                                    overdueTasks: documentsSnapshot,
+                                    handleYesterdayDailies: () => DailyService.handleYesterdayTasks(),
+                                    updateLastAccessDay: () => UserService.updatelastAccessDay(today)
+                                  );
+                                }                             
+                              );
+                            }
+                          });
+                      }
                     }
                     return Text('');
                   },
