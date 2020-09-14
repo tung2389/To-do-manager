@@ -81,27 +81,15 @@ class DailyService {
               .delete();
   }
 
-  // A function return a Future<List<DocumentSnapshot>>, which is _db.collection('user')...getDocuments.then(...)
-  static Future<List<DocumentSnapshot>> getOverdueTasks() async {
+  static Future<List<DocumentSnapshot>> getAllDailyTasks() async {
     String uid = await LocalData.getUserId();
     return _db.collection('user')
       .document(uid)
       .collection('daily')
-      .where('status', isEqualTo: 'pending')
       .getDocuments().then((snapshots) {
         return snapshots.documents;
       });
   }
-
-  // Future<List<DocumentSnapshot>> getAllDailyTasks() async {
-  //   String uid = await LocalData.getUserId();
-  //   return _db.collection('user')
-  //     .document(uid)
-  //     .collection('daily')
-  //     .getDocuments().then((snapshots) {
-  //       return snapshots.documents;
-  //     });
-  // }
 
   static Future<void> deleteOverdue(String taskId) async{
     String uid = await LocalData.getUserId();
@@ -112,36 +100,45 @@ class DailyService {
               .delete();
   }
 
-  static Future<void> handleYesterdayTasks() async {
+  static Future<void> deleteAllYesterdayOverdue() async{
     String uid = await LocalData.getUserId();
     return _db.collection('user')
       .document(uid)
-      .collection('daily')
+      .collection('yesterdayOverdue')
       .getDocuments()
       .then((QuerySnapshot data) {
-        List<Future> updatingFutures = <Future>[];
+        List<Future> delFutures = <Future>[];
         for (DocumentSnapshot document in data.documents) {
-          if(document.data['status'] == 'completed') {
-            // Reset task's status to pending
-            updatingFutures.add(
-              document.reference.updateData({
-                'status': 'pending'
-              })
-            );
-          }
-          else {
-            // Add yesterday uncompleted tasks to yesterdayOverdue collection
-            _db.collection('user')
-              .document(uid)
-              .collection('yesterdayOverdue')
-              .add(document.data);
-          }
+          delFutures.add(
+            document.reference.delete()
+          );
         }
-        return Future.wait(updatingFutures);
+        return Future.wait(delFutures);
       });
   }
 
-  static List<String> calculateTaskNeedToAddToOverdue() {
-
+  static Future<void> handleYesterdayTasks(List<DocumentSnapshot> dailyTaskList, List<String> dailyTaskStatus) async {
+    String uid = await LocalData.getUserId();
+    await deleteAllYesterdayOverdue();
+    List<Future> updatingFutures = <Future>[];
+    for(int i = 0; i < dailyTaskList.length; i++) {
+      DocumentSnapshot document = dailyTaskList[i];
+      if(dailyTaskStatus[i] == 'completed') {
+        updatingFutures.add(
+          document.reference.updateData({
+            'status': 'pending'
+          })
+        );
+      }
+      else {
+        updatingFutures.add(
+          _db.collection('user')
+            .document(uid)
+            .collection('yesterdayOverdue')
+            .document(document.documentID)
+            .setData(document.data)     
+        );
+      }
+    }
   }
 }

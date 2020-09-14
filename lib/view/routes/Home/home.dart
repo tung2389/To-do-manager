@@ -6,8 +6,15 @@ import '../../../controller/local.dart';
 import '../../../controller/user.dart';
 import '../../../controller/daily.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
+  @override
+  _HomeState createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
   final int today = DateTime.now().day;
+  List<String> dailyTaskStatus;
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -69,17 +76,32 @@ class Home extends StatelessWidget {
                     if(isNewDay.hasData) {
                       if(isNewDay.data) {
                         DailyService
-                          .getOverdueTasks()
-                          .then((documentsSnapshot) {
-                            if(documentsSnapshot.length > 0) {
+                          .getAllDailyTasks()
+                          .then((dailyTaskList) {
+                            // Create Overdue tasks list
+                            List<Map<String, dynamic>> overdueTasks = new List<Map<String, dynamic>>();
+                            dailyTaskStatus = List<String>(dailyTaskList.length);
+                            for(int i = 0; i < dailyTaskList.length; i++) {
+                              Map<String, dynamic> task = dailyTaskList[i].data;
+                              if(task['status'] == 'pending') {
+                                task['index'] = i;
+                                task['id'] = dailyTaskList[i].documentID;
+                                overdueTasks.add(task);
+                              }
+                              dailyTaskStatus[i] = task['status'];
+                            }
+                            if(overdueTasks.length > 0) {
                               showDialog(
                                 context: context,
                                 barrierDismissible: false,
                                 builder: (BuildContext context) {
                                   return YesterdayDailies(
-                                    overdueTasks: documentsSnapshot,
-                                    handleYesterdayDailies: () => DailyService.handleYesterdayTasks(),
-                                    updateLastAccessDay: () => UserService.updatelastAccessDay(today)
+                                    overdueTasks: overdueTasks,
+                                    dailyTaskList: dailyTaskList,
+                                    dailyTaskStatus: dailyTaskStatus,
+                                    changeTaskStatus: (int index, String value) {
+                                      dailyTaskStatus[index] = value;
+                                    }
                                   );
                                 }                             
                               );

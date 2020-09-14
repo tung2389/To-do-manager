@@ -10,17 +10,29 @@ import '../dropdownTaskOptions.dart';
 
 class DailyTaskView extends StatefulWidget {
   final DailyTask task;
+  final int taskIndex;
   final BuildContext parentContext;
   final String mode;
-  DailyTaskView({this.task, this.parentContext, this.mode}) : super(key: Key(task.id));
+  final void Function(int index, String value) changeTaskStatus;
+  DailyTaskView({
+    this.task, 
+    this.taskIndex, 
+    this.parentContext, 
+    this.mode, 
+    this.changeTaskStatus
+  }) : super(key: Key(task.id));
 
   @override 
   // Pass task property from StatefulWidget to the State widget
-  _DailyTaskViewState createState() => _DailyTaskViewState();
+  _DailyTaskViewState createState() => _DailyTaskViewState(task.status);
 }
 
 class _DailyTaskViewState extends State<DailyTaskView> {
   bool _loading = false;
+  String taskStatus;
+  _DailyTaskViewState(status) {
+    taskStatus = status;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,37 +59,57 @@ class _DailyTaskViewState extends State<DailyTaskView> {
             _loading ?
             Loading() :
             Checkbox(
-              value: widget.task.status== 'completed' ? true : false, 
-              onChanged: 
-                widget.mode == 'view' || widget.mode == 'viewOverdue'
-                ? null :
-                (bool value) async {
-                setState(() {
-                  _loading = true;
-                });
-                dynamic result = await DailyService.markAsCompleted(widget.task.id);
-                                            //  .whenComplete(() {
-                                            //     setState(() {
-                                            //       checked = value;
-                                            //       loading = false;
-                                            //     });                                              
-                                            //  });
-                if(result == null) {
-                  Scaffold.of(widget.parentContext).showSnackBar( // We cannot use of(context) here because the task will be dispose when completed, so the context is not available
-                    ErrorSnackBar(
-                      message: 'There is an error while updating your task',
-                    ).build()
-                  );
+              value: taskStatus == 'completed' ? true : false, 
+              onChanged: (bool value) async {
+                switch(widget.mode) {
+                  case 'view': return null;
+                  case 'viewOverdue': return null;
+
+                  case 'checkOff': {
+                    if(value == true) {
+                      widget.changeTaskStatus(widget.taskIndex, 'completed');
+                      setState(() {
+                        taskStatus = 'completed';
+                      });
+
+                    }
+                    else {
+                      widget.changeTaskStatus(widget.taskIndex, 'pending');
+                      setState(() {
+                        taskStatus = 'pending';
+                      });  
+                    }
+                  }
+                  break;
+                  
+                  case 'edit': {
+                    setState(() {
+                        _loading = true;
+                      });
+                    dynamic result = await DailyService.markAsCompleted(widget.task.id);
+                                                    // .whenComplete(() {
+                                                    //   setState(() {
+                                                    //     _loading = false;
+                                                    //   });                                              
+                                                    // });
+                    if(result == null) {
+                      Scaffold.of(widget.parentContext).showSnackBar( // We cannot use of(context) here because the task will be dispose when completed, so the context is not available
+                        ErrorSnackBar(
+                          message: 'There is an error while updating your task',
+                        ).build()
+                      );
+                    }
+                    else {
+                      Scaffold.of(widget.parentContext).showSnackBar(
+                        SuccessSnackBar(
+                          message: 'Congratulation! You have completed a task',
+                        ).build()
+                      );
+                    }
+                  }
+                  break;
                 }
-                else {
-                  Scaffold.of(widget.parentContext).showSnackBar(
-                    SuccessSnackBar(
-                      message: 'Congratulation! You have completed a task',
-                    ).build()
-                  );
-                }
-              },
-              // activeColor: ,
+              }
             ),
             Text(
               '${widget.task.title}'
@@ -96,10 +128,13 @@ class _DailyTaskViewState extends State<DailyTaskView> {
                 task: widget.task
               ),
               deleteTask: () {
-                if(widget.mode == 'view') {
+                if(widget.mode == 'view' 
+                  || widget.mode =='checkOff'
+                  || widget.mode == 'edit'
+                ) {
                   return DailyService.delete(widget.task.id);
                 }
-                else{
+                else {
                   return DailyService.deleteOverdue(widget.task.id);
                 }
               }

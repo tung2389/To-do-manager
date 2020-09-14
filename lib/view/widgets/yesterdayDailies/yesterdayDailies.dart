@@ -1,13 +1,23 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import '../Task/Daily/daily.dart';
 import '../../../model/daily.dart';
 import '../loadingIndicator/loadingIndicator.dart';
 
+import '../../../controller/user.dart';
+import '../../../controller/daily.dart';
+
 class YesterdayDailies extends StatefulWidget {
-  final List overdueTasks;
-  final Future<void> Function() handleYesterdayDailies;
-  final Future<void> Function() updateLastAccessDay;
-  YesterdayDailies({this.overdueTasks, this.handleYesterdayDailies ,this.updateLastAccessDay});
+  final List<DocumentSnapshot> dailyTaskList;
+  final List<Map<String, dynamic>> overdueTasks;
+  final List<String> dailyTaskStatus;
+  final void Function(int index, String value) changeTaskStatus;
+  YesterdayDailies({
+    this.dailyTaskList, 
+    this.overdueTasks, 
+    this.dailyTaskStatus,
+    this.changeTaskStatus
+  });
 
   @override
   _YesterdayDailiesState createState() => _YesterdayDailiesState();
@@ -31,13 +41,14 @@ class _YesterdayDailiesState extends State<YesterdayDailies> {
           width: MediaQuery.of(context).size.height / 1.2,
           child: ListView.builder(
             itemBuilder: (context, index) {
-              Map<String, dynamic> rawTask = widget.overdueTasks[index].data;
-              rawTask['id'] = widget.overdueTasks[index].documentID; //insert ID to Map task
+              Map<String, dynamic> rawTask = widget.overdueTasks[index];
               DailyTask task = DailyTask.fromMap(rawTask);
               return DailyTaskView(
                 task: task,
+                taskIndex: rawTask['index'],
                 parentContext: context,
-                mode: 'edit',
+                mode: 'checkOff',
+                changeTaskStatus: widget.changeTaskStatus
               );
             }, 
             itemCount: widget.overdueTasks.length,
@@ -56,8 +67,8 @@ class _YesterdayDailiesState extends State<YesterdayDailies> {
               _loading = true;
             });
             Future.wait([
-              widget.updateLastAccessDay(),
-              widget.handleYesterdayDailies()
+              UserService.updatelastAccessDay(DateTime.now().day),
+              DailyService.handleYesterdayTasks(widget.dailyTaskList, widget.dailyTaskStatus)
             ]).whenComplete(() {
                 Navigator.pop(context);
               });
