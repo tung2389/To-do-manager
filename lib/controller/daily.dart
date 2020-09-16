@@ -39,37 +39,15 @@ class DailyService {
     }
   }
 
-  static Future<void> updateSteps(String taskId, List<String>stepList) async {
+  static Future<void> markAsCompleted(String taskId) async {
     String uid = await LocalData.getUserId();
-    try{
-      await _db.collection('user') 
-        .document(uid)
-        .collection('daily')
-        .document(taskId)
-        .updateData({
-          'steps': stepList
-        });
-    } catch(e) {
-      return Future.error(
-        'There was an error updating your steps'
-      );
-    }
-  }
-
-  static Future<bool> markAsCompleted(String taskId) async {
-    String uid = await LocalData.getUserId();
-    try{
-      await _db.collection('user')
+    return _db.collection('user')
               .document(uid)
               .collection('daily')
               .document(taskId)
               .updateData({
                 'status': 'completed'
               });
-      return true;
-    } catch(e) {
-      return null;
-    }
   }
 
   static Future<void> delete(String taskId) async{

@@ -39,23 +39,6 @@ class TodoService {
     }
   }
 
-  static Future updateSteps(String taskId, List<String>stepList) async {
-    String uid = await LocalData.getUserId();
-    try{
-      await _db.collection('user') 
-        .document(uid)
-        .collection('todo')
-        .document(taskId)
-        .updateData({
-          'steps': stepList
-        });
-    } catch(e) {
-      return Future.error(
-        'There was an error updating your steps'
-      );
-    }
-  }
-
   static Future markAsCompleted(String taskId) async {
     String uid = await LocalData.getUserId();
     try{

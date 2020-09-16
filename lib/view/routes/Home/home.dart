@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../widgets/Drawer/drawer.dart';
 import '../../widgets/NavigationCard/navCard.dart';
 import '../../widgets/yesterdayDailies/yesterdayDailies.dart';
+import '../../widgets/newDayWelcome/newDayWelcome.dart';
 import '../../../controller/local.dart';
 import '../../../controller/user.dart';
 import '../../../controller/daily.dart';
@@ -90,11 +91,11 @@ class _HomeState extends State<Home> {
                               }
                               dailyTaskStatus[i] = task['status'];
                             }
-                            if(overdueTasks.length > 0) {
-                              showDialog(
-                                context: context,
-                                barrierDismissible: false,
-                                builder: (BuildContext context) {
+                            showDialog(
+                              context: context,
+                              barrierDismissible: false,
+                              builder: (BuildContext context) {
+                                if(overdueTasks.length > 0) {
                                   return YesterdayDailies(
                                     overdueTasks: overdueTasks,
                                     dailyTaskList: dailyTaskList,
@@ -103,9 +104,15 @@ class _HomeState extends State<Home> {
                                       dailyTaskStatus[index] = value;
                                     }
                                   );
-                                }                             
-                              );
-                            }
+                                }
+                                else {
+                                  return NewDayWelcome(
+                                    dailyTaskList: dailyTaskList,
+                                    dailyTaskStatus: dailyTaskStatus
+                                  );
+                                }
+                              }                             
+                            );
                           });
                       }
                     }
