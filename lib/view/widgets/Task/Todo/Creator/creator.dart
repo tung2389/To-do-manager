@@ -20,7 +20,7 @@ class TodoCreator extends StatefulWidget {
 
 class _TodoCreatorState extends State<TodoCreator> {
   bool _loading = false;
-  //final ScrollController _scrollBarController = ScrollController();
+  final _formKey = GlobalKey<FormState>();
 
   TodoTask _task = new TodoTask(
     id: '',
@@ -70,145 +70,150 @@ class _TodoCreatorState extends State<TodoCreator> {
           width: 300,
           child: SingleChildScrollView(
             // controller: _scrollBarController,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                TextField(
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    hintText: "Enter task's title"
-                  ),
-                  onChanged: (value) {
-                    setState(() {
-                      _task.title = value;
-                    });
-                  },
-                ),
-
-                TextField(
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    hintText: "Enter task's description"
-                  ),
-                  onChanged: (value) {
-                    setState(() {
-                      _task.description = value;
-                    });
-                  },
-                ),
-                SizedBox(height: 10), // Add margin
-
-                Text('Choose level'),
-                DropDownMenu(
-                  changeOption: (value) {
-                    setState(() {
-                      _task.priority = value;
-                    });
-                  }
-                ),
-                SizedBox(height: 20), // Add margin
-
-                Text('Start time'),
-                BasicDateTimeField(
-                  onChanged: (value) {
-                    setState(() {
-                      _task.startTime = value;
-                    });
-                  },
-                ),
-                SizedBox(height: 10),
-
-                Text('End time'),
-                BasicDateTimeField(
-                  onChanged: (value) {
-                    setState(() {
-                      _task.endTime = value;
-                    });
-                  }
-                ),
-                SizedBox(height: 10),
-                Text('Steps'),
-                Row(
-                  children: <Widget>[
-                    IconButton(
-                      icon: Icon(Icons.add),
-                      tooltip: 'Add new steps',
-                      onPressed: () {
+            child: Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  TextFormField(
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      hintText: "Enter task's title"
+                    ),
+                    onChanged: (value) {
                       setState(() {
-                          //_task.steps.add(tempStep); // We cannot do this because this will add the reference of tempStep.
-                          _task.steps.add(TaskStep.clone(tempStep));
-                        });
-                      _stepController.clear();
-                      },
-                    ),
-                    Expanded( // We need expanded so the textfield take the remaining space of row
-                      child: TextField(
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          hintText: "Add more step"
-                        ),
-                        onChanged: (value) {
-                          setState(() {
-                            tempStep.title = value;
-                          });
-                        },
-                        controller: _stepController,
-                      ),
-                    )
-                  ],
-                ),
-                ListView.builder(
-                  itemBuilder: (context, index) {
-                    return StepView(
-                      step: _task.steps[index],
-                      updateStep: (bool value) {
-                        setState(() {
-                          _task.steps[index].completed = value;
-                        });
-                      },
-                    );
-                  },
-                  itemCount: _task.steps.length,
-                  shrinkWrap: true,
-                ),
-                SizedBox(height: 10),
+                        _task.title = value;
+                      });
+                    },
+                    validator: (val) => val.isEmpty ? "Field is required" : null,
+                  ),
 
-                Text('Categories'),
-                Row(
-                  children: <Widget>[
-                    IconButton(
-                      icon: Icon(Icons.add),
-                      tooltip: 'Add labels',
-                      onPressed: () {
-                        setState(() {
-                          _task.labels.add(tempLabel);
-                        });
-                        _labelController.clear();
-                      }
+                  TextFormField(
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      hintText: "Enter task's description"
                     ),
-                    Expanded( // We need expanded so the textfield take the remaining space of row
-                      child: TextField(
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          hintText: "Add new label"
+                    onChanged: (value) {
+                      setState(() {
+                        _task.description = value;
+                      });
+                    },
+                    validator: (val) => val.isEmpty ? "Field is required" : null,
+                  ),
+                  SizedBox(height: 10), // Add margin
+
+                  Text('Choose level'),
+                  DropDownMenu(
+                    changeOption: (value) {
+                      setState(() {
+                        _task.priority = value;
+                      });
+                    }
+                  ),
+                  SizedBox(height: 20), // Add margin
+
+                  Text('Start time'),
+                  BasicDateTimeField(
+                    onChanged: (value) {
+                      setState(() {
+                        _task.startTime = value;
+                      });
+                    },
+                  ),
+                  SizedBox(height: 10),
+
+                  Text('End time'),
+                  BasicDateTimeField(
+                    onChanged: (value) {
+                      setState(() {
+                        _task.endTime = value;
+                      });
+                    }
+                  ),
+                  SizedBox(height: 10),
+                  Text('Steps'),
+                  Row(
+                    children: <Widget>[
+                      IconButton(
+                        icon: Icon(Icons.add),
+                        tooltip: 'Add new steps',
+                        onPressed: () {
+                        setState(() {
+                            //_task.steps.add(tempStep); // We cannot do this because this will add the reference of tempStep.
+                            _task.steps.add(TaskStep.clone(tempStep));
+                          });
+                        _stepController.clear();
+                        },
+                      ),
+                      Expanded( // We need expanded so the textfield take the remaining space of row
+                        child: TextField(
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: "Add more step"
+                          ),
+                          onChanged: (value) {
+                            setState(() {
+                              tempStep.title = value;
+                            });
+                          },
+                          controller: _stepController,
                         ),
-                        onChanged: (value) {
+                      )
+                    ],
+                  ),
+                  ListView.builder(
+                    itemBuilder: (context, index) {
+                      return StepView(
+                        step: _task.steps[index],
+                        updateStep: (bool value) {
                           setState(() {
-                            tempLabel = value;
+                            _task.steps[index].completed = value;
                           });
                         },
-                        controller: _labelController,
+                      );
+                    },
+                    itemCount: _task.steps.length,
+                    shrinkWrap: true,
+                  ),
+                  SizedBox(height: 10),
+
+                  Text('Categories'),
+                  Row(
+                    children: <Widget>[
+                      IconButton(
+                        icon: Icon(Icons.add),
+                        tooltip: 'Add labels',
+                        onPressed: () {
+                          setState(() {
+                            _task.labels.add(tempLabel);
+                          });
+                          _labelController.clear();
+                        }
                       ),
-                    )
-                  ],
-                ),
-                Wrap(
-                  spacing: 5.0,
-                  runSpacing: 5.0,
-                  children: _generateLabelList(),
-                ),
-                SizedBox(height: 10),
-              ]
+                      Expanded( // We need expanded so the textfield take the remaining space of row
+                        child: TextField(
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: "Add new label"
+                          ),
+                          onChanged: (value) {
+                            setState(() {
+                              tempLabel = value;
+                            });
+                          },
+                          controller: _labelController,
+                        ),
+                      )
+                    ],
+                  ),
+                  Wrap(
+                    spacing: 5.0,
+                    runSpacing: 5.0,
+                    children: _generateLabelList(),
+                  ),
+                  SizedBox(height: 10),
+                ]
+              ),
             ),
           ),
         ),
@@ -227,15 +232,17 @@ class _TodoCreatorState extends State<TodoCreator> {
                 ),
                 color: Colors.red[400],
                 onPressed: () {
-                  setState(() {
-                    _loading = true;
-                  });
-                  TodoService.create(_task).whenComplete(() {
+                  if(_formKey.currentState.validate()) {
                     setState(() {
-                      _loading = false;
+                      _loading = true;
                     });
-                    Navigator.pop(context); // Close the dialog
-                  });
+                    TodoService.create(_task).whenComplete(() {
+                      setState(() {
+                        _loading = false;
+                      });
+                      Navigator.pop(context); // Close the dialog
+                    });
+                  }
                 },
               ),
             ),

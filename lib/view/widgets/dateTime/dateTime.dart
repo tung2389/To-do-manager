@@ -16,6 +16,7 @@ class BasicDateTimeField extends StatelessWidget {
         enabled: enabled,
         format: format,
         initialValue: initialValue,
+        validator: (val) => val == null ? "Field is required" : null,
         onShowPicker: (context, currentValue) async {
           final date = await showDatePicker(
               context: context,
