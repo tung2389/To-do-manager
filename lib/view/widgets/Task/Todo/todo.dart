@@ -55,27 +55,24 @@ class _TodoTaskViewState extends State<TodoTaskView> {
                 setState(() {
                   _loading = true;
                 });
-                dynamic result = await TodoService.markAsCompleted(widget.task.id);
-                                            //  .whenComplete(() {
-                                            //     setState(() {
-                                            //       checked = value;
-                                            //       loading = false;
-                                            //     });                                              
-                                            //  });
-                if(result == null) {
-                  Scaffold.of(widget.parentContext).showSnackBar( // We cannot use of(context) here because the task will be dispose when completed, so the context is not available
-                    ErrorSnackBar(
-                      message: 'There is an error while updating your task',
-                    ).build()
-                  );
-                }
-                else {
-                  Scaffold.of(widget.parentContext).showSnackBar(
-                    SuccessSnackBar(
-                      message: 'Congratulation! You have completed a task',
-                    ).build()
-                  );
-                }
+                TodoService.markAsCompleted(widget.task.id)
+                  .then((value) {
+                    Scaffold.of(widget.parentContext).showSnackBar(
+                      SuccessSnackBar(
+                        message: 'Congratulation! You have completed a task',
+                      ).build()
+                    );
+                  })
+                  .catchError((error) {
+                    Scaffold.of(widget.parentContext).showSnackBar( // We cannot use of(context) here because the task will be dispose when completed, so the context is not available
+                      ErrorSnackBar(
+                        message: 'There is an error while updating your task',
+                      ).build()
+                    );
+                    setState(() {
+                      _loading = false;
+                    });
+                  });
               },
               // activeColor: ,
             ),
