@@ -17,7 +17,7 @@ class _DropDownMenuState extends State<DropDownMenu> {
   }
   @override
   Widget build(BuildContext context) {
-    return DropdownButton<String>(
+    return DropdownButtonFormField<String>(
       value: _defaultValue,
       onChanged: (
         widget.enabled 
@@ -29,6 +29,7 @@ class _DropDownMenuState extends State<DropDownMenu> {
         } 
         : (String newValue) {}
       ),
+      validator: (val) => val == null ? "Field is required" : null,
       items: <String>['trivial', 'normal', 'important', 'essential']
         .map<DropdownMenuItem<String>>((String value) {
           return DropdownMenuItem<String>(

@@ -25,7 +25,7 @@ class _TodoCreatorState extends State<TodoCreator> {
   TodoTask _task = new TodoTask(
     id: '',
     title: '', 
-    priority: 'normal', 
+    priority: '', 
     description: '',
     steps: new List<TaskStep>(),
     labels: new List<String>(),
@@ -100,7 +100,6 @@ class _TodoCreatorState extends State<TodoCreator> {
 
                 Text('Choose level'),
                 DropDownMenu(
-                  defaultValue: 'normal',
                   changeOption: (value) {
                     setState(() {
                       _task.priority = value;
